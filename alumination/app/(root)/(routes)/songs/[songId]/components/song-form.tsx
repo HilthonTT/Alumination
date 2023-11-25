@@ -57,11 +57,13 @@ export const SongForm = () => {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      if (!values.song) {
-        return toast.error("Song file is missing.");
-      }
+    if (!values.song) {
+      return toast.error("Song file is missing.");
+    }
 
+    const toastId = toast.loading("Please wait until we upload your song.");
+
+    try {
       const uniqueID = uuid();
 
       const { data: songData, error: songError } = await supabase.storage
@@ -80,11 +82,15 @@ export const SongForm = () => {
 
       await axios.post("/api/songs", postedValues);
 
+      toast.success("Success!");
+
       router.refresh();
       handleClose();
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong.");
+    } finally {
+      toast.dismiss(toastId);
     }
   };
 
