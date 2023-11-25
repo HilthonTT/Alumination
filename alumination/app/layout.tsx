@@ -1,9 +1,12 @@
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+
+import { ModalProvider } from "@/components/providers/modal-provider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ToastProvider } from "@/components/providers/toast-provider";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -26,6 +29,8 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
+            <ModalProvider />
+            <ToastProvider />
             {children}
           </ThemeProvider>
         </body>

@@ -26,10 +26,13 @@ model Song {
   title String
   description String
   songPath String
-  imagePath String
+  imageUrl String
 
   profileId String
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([profileId])
 }
