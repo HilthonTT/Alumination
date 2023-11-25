@@ -1,10 +1,13 @@
 import { Navbar } from "@/components/navbar";
+import { initialProfile } from "@/lib/initial-profile";
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = async ({ children }: RootLayoutProps) => {
+  const profile = await initialProfile();
+
   return (
     <div className="h-full">
       <Navbar />
