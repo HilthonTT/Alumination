@@ -1,6 +1,8 @@
+import { NextResponse } from "next/server";
+
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
-import { NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
 interface SongIdProps {
   params: {
@@ -85,6 +87,8 @@ export async function DELETE(req: Request, { params }: SongIdProps) {
     if (!song) {
       return new NextResponse("Song not found", { status: 404 });
     }
+
+    await supabase.storage.from("songs").remove([song.songPath]);
 
     return NextResponse.json(song);
   } catch (error) {
