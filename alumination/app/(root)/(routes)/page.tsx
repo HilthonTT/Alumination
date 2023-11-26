@@ -1,21 +1,17 @@
-import { ModeToggle } from "@/components/mode-toggle";
-import { redirectToSignIn, auth } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
+import { db } from "@/lib/prismadb";
+import { SongCard } from "@/components/song-card";
+import { Songs } from "@/components/songs";
 
-const HomePage = () => {
-  const { userId } = auth();
-
-  if (!userId) {
-    return redirectToSignIn();
-  }
+const HomePage = async () => {
+  const songs = await db.song.findMany({
+    include: {
+      profile: true,
+    },
+  });
 
   return (
-    <div>
-      Home [Protected]
-      <div>
-        <ModeToggle />
-        <UserButton afterSignOutUrl="/" />
-      </div>
+    <div className="max-w-5xl mx-auto h-full">
+      <Songs data={songs} />
     </div>
   );
 };
