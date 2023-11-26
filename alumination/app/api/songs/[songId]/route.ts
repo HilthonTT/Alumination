@@ -2,10 +2,13 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { songId: string } }
-) {
+interface SongIdProps {
+  params: {
+    songId: string;
+  };
+}
+
+export async function PATCH(req: Request, { params }: SongIdProps) {
   try {
     const body = await req.json();
     const profile = await currentProfile();
@@ -56,6 +59,36 @@ export async function PATCH(
     return NextResponse.json(song);
   } catch (error) {
     console.log("[SONGS_ID_PATH]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request, { params }: SongIdProps) {
+  try {
+    const profile = await currentProfile();
+
+    if (!params.songId) {
+      return new NextResponse("Song ID is required", { status: 400 });
+    }
+
+    if (!profile || !profile?.id) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const song = await db.song.delete({
+      where: {
+        profileId: profile.id,
+        id: params.songId,
+      },
+    });
+
+    if (!song) {
+      return new NextResponse("Song not found", { status: 404 });
+    }
+
+    return NextResponse.json(song);
+  } catch (error) {
+    console.log("SONGS_ID_DELETE", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

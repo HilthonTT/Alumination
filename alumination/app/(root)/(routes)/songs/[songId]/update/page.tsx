@@ -1,8 +1,8 @@
 import { redirectToSignIn } from "@clerk/nextjs";
 
 import { db } from "@/lib/prismadb";
-import { SongForm } from "@/components/songs/song-form";
 import { currentProfile } from "@/lib/current-profile";
+import { SongFormUpdate } from "@/components/songs/song-form-update";
 
 interface SongIdUpdatePageProps {
   params: {
@@ -26,7 +26,7 @@ const SongIdUpdatePage = async ({ params }: SongIdUpdatePageProps) => {
     },
   });
 
-  return <SongForm categories={categories} initialData={song} />;
+  return <SongFormUpdate categories={categories} initialData={song!} />;
 };
 
 export default SongIdUpdatePage;

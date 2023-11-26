@@ -1,7 +1,7 @@
 import { redirectToSignIn } from "@clerk/nextjs";
 
 import { SongDetails } from "@/components/songs/song-details";
-import { SongForm } from "@/components/songs/song-form";
+import { SongFormCreate } from "@/components/songs/song-form-create";
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
 import { SongList } from "@/components/song-list";
@@ -22,7 +22,7 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
 
     const categories = await db.category.findMany();
 
-    return <SongForm categories={categories} />;
+    return <SongFormCreate categories={categories} />;
   }
 
   const song = await db.song.findUnique({
@@ -43,9 +43,11 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     },
   });
 
+  const isOwner = profile?.id === song?.profile.id;
+
   return (
     <div className="max-w-3xl mx-auto">
-      <SongDetails data={song} />
+      <SongDetails data={song} isOwner={isOwner} />
       <SongList data={relatedSongs} title="Related songs" />
     </div>
   );

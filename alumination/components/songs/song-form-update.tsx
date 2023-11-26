@@ -46,10 +46,10 @@ const formSchema = z.object({
 
 interface SongFormProps {
   categories: Category[];
-  initialData?: Song | null;
+  initialData: Song;
 }
 
-export const SongForm = ({ categories, initialData }: SongFormProps) => {
+export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
   const router = useRouter();
 
   const form = useForm({
@@ -58,31 +58,22 @@ export const SongForm = ({ categories, initialData }: SongFormProps) => {
       title: initialData?.title || "",
       description: initialData?.description || "",
       imageUrl: initialData?.imageUrl || "",
-      categoryId: initialData?.categoryId || "",
+      categoryId: initialData?.categoryId,
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const handleClose = () => {
-    router.refresh();
-    form.reset();
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const toastId = toast.loading("Please wait until we update your song.");
 
     try {
-      if (initialData) {
-        // Update song
-        await axios.patch(`/api/songs/${initialData.id}`, values);
-      } else {
-        // Create song
-        await axios.post("/api/songs", values);
-        handleClose();
-      }
+      await axios.patch(`/api/songs/${initialData?.id}`, values);
 
       toast.success("Success!");
+
+      router.refresh();
+      form.reset();
       window.location.href = "/";
     } catch (error) {
       console.log(error);
@@ -200,7 +191,7 @@ export const SongForm = ({ categories, initialData }: SongFormProps) => {
           />
           <div className="w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
-              Create your song
+              Update your song
             </Button>
           </div>
         </form>
