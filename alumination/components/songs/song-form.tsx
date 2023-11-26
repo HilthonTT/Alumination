@@ -6,10 +6,8 @@ import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { v4 as uuid } from "uuid";
 
-import { Category } from "@prisma/client";
-import { supabase } from "@/lib/supabase";
+import { Category, Song } from "@prisma/client";
 import {
   Form,
   FormControl,
@@ -44,57 +42,47 @@ const formSchema = z.object({
   categoryId: z.string().min(1, {
     message: "The category is required.",
   }),
-  song: z.any(),
 });
 
 interface SongFormProps {
   categories: Category[];
+  initialData?: Song | null;
 }
 
-export const SongForm = ({ categories }: SongFormProps) => {
+export const SongForm = ({ categories, initialData }: SongFormProps) => {
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      imageUrl: "",
-      categoryId: "",
-      song: null,
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      imageUrl: initialData?.imageUrl || "",
+      categoryId: initialData?.categoryId || "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (!values.song) {
-      return toast.error("Song file is missing.");
-    }
+  const handleClose = () => {
+    router.refresh();
+    form.reset();
+  };
 
-    const toastId = toast.loading("Please wait until we upload your song.");
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const toastId = toast.loading("Please wait until we update your song.");
 
     try {
-      const uniqueID = uuid();
-
-      const { data: songData, error: songError } = await supabase.storage
-        .from("songs")
-        .upload(`song-${values.title}-${uniqueID}`, values.song, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-
-      const postedValues = {
-        ...values,
-        songPath: songData?.path,
-      };
-
-      await axios.post("/api/songs", postedValues);
+      if (initialData) {
+        // Update song
+        await axios.patch(`/api/songs/${initialData.id}`, values);
+      } else {
+        // Create song
+        await axios.post("/api/songs", values);
+        handleClose();
+      }
 
       toast.success("Success!");
-
-      router.refresh();
-      form.reset();
       window.location.href = "/";
     } catch (error) {
       console.log(error);
@@ -125,38 +113,7 @@ export const SongForm = ({ categories }: SongFormProps) => {
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="song"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song File
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    accept="audio/mp3"
-                    type="file"
-                    disabled={isLoading}
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        field.onChange(e.target.files[0]); // Update the field value on change
-                      }
-                    }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
-                    name={field.name}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Upload your musical magic here — let your melody take center
-                  stage! 🎶📁
-                </FormDescription>
-                <FormMessage className="text-red-600" />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="categoryId"
