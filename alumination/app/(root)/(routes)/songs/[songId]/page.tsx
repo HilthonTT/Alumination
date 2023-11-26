@@ -1,4 +1,5 @@
-import { SongForm } from "./components/song-form";
+import { SongForm } from "@/components/songs/song-form";
+import { db } from "@/lib/prismadb";
 
 interface SongIdPageProps {
   params: {
@@ -6,9 +7,11 @@ interface SongIdPageProps {
   };
 }
 
-const SongIdPage = ({ params }: SongIdPageProps) => {
+const SongIdPage = async ({ params }: SongIdPageProps) => {
   if (params.songId === "create") {
-    return <SongForm />;
+    const categories = await db.category.findMany();
+
+    return <SongForm categories={categories} />;
   }
 
   return <div></div>;

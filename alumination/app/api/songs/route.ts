@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const profile = await currentProfile();
 
-    const { imageUrl, songPath, title, description } = body;
+    const { imageUrl, songPath, title, description, categoryId } = body;
 
     if (!profile || !profile?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -30,6 +30,10 @@ export async function POST(req: Request) {
       return new NextResponse("Description is required", { status: 400 });
     }
 
+    if (!categoryId) {
+      return new NextResponse("Category ID is missing", { status: 400 });
+    }
+
     const song = await db.song.create({
       data: {
         profileId: profile.id,
@@ -37,6 +41,7 @@ export async function POST(req: Request) {
         songPath,
         title,
         description,
+        categoryId,
       },
     });
 

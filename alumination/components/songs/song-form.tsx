@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { v4 as uuid } from "uuid";
 
+import { Category } from "@prisma/client";
 import { supabase } from "@/lib/supabase";
 import {
   Form,
@@ -22,6 +23,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload } from "@/components/image-upload";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -33,10 +41,17 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, {
     message: "Song image is required.",
   }),
+  categoryId: z.string().min(1, {
+    message: "The category is required.",
+  }),
   song: z.any(),
 });
 
-export const SongForm = () => {
+interface SongFormProps {
+  categories: Category[];
+}
+
+export const SongForm = ({ categories }: SongFormProps) => {
   const router = useRouter();
 
   const form = useForm({
@@ -45,16 +60,12 @@ export const SongForm = () => {
       title: "",
       description: "",
       imageUrl: "",
+      categoryId: "",
       song: null,
     },
   });
 
   const isLoading = form.formState.isSubmitting;
-
-  const handleClose = () => {
-    form.reset();
-    router.push("/");
-  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!values.song) {
@@ -74,9 +85,7 @@ export const SongForm = () => {
         });
 
       const postedValues = {
-        title: values.title,
-        description: values.description,
-        imageUrl: values.imageUrl,
+        ...values,
         songPath: songData?.path,
       };
 
@@ -85,7 +94,8 @@ export const SongForm = () => {
       toast.success("Success!");
 
       router.refresh();
-      handleClose();
+      form.reset();
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -142,6 +152,43 @@ export const SongForm = () => {
                 <FormDescription>
                   Upload your musical magic here — let your melody take center
                   stage! 🎶📁
+                </FormDescription>
+                <FormMessage className="text-red-600" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="dark:text-zinc-200 uppercase">
+                  Song Category
+                </FormLabel>
+                <Select
+                  disabled={isLoading}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="bg-background">
+                      <SelectValue
+                        defaultValue={field.value}
+                        placeholder="Select a category"
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories?.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Pick the perfect category to harmonize your song's essence!
+                  🎵🎶
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>

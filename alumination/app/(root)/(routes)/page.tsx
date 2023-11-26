@@ -1,17 +1,31 @@
 import { db } from "@/lib/prismadb";
-import { SongCard } from "@/components/song-card";
 import { Songs } from "@/components/songs";
+import { Categories } from "@/components/categories";
 
-const HomePage = async () => {
+interface HomePageProps {
+  searchParams: {
+    categoryId: string;
+  };
+}
+
+const HomePage = async ({ searchParams }: HomePageProps) => {
   const songs = await db.song.findMany({
+    where: {
+      categoryId: searchParams.categoryId,
+    },
     include: {
       profile: true,
     },
   });
 
+  const categories = await db.category.findMany();
+
   return (
-    <div className="max-w-5xl mx-auto h-full">
-      <Songs data={songs} />
+    <div className="h-full w-full flex">
+      <div className="max-w-5xl mx-auto h-full">
+        <Categories data={categories} />
+        <Songs data={songs} />
+      </div>
     </div>
   );
 };

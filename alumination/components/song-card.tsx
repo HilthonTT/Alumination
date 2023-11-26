@@ -30,8 +30,10 @@ export const SongCard = ({ song }: SongCardProps) => {
     <div
       onClick={onClick}
       className="relative flex flex-col items-center p-4 
-                shadow-slate-800 shadow-sm bg-slate-800 hover:bg-slate-700 
-                transition rounded-xl cursor-pointer">
+                 dark:bg-slate-800 dark:hover:bg-slate-700  
+                 bg-slate-500 hover:bg-slate-600
+                 shadow-sm  shadow-slate-800
+                 transition rounded-xl cursor-pointer">
       <div className="relative h-52 w-52">
         <Image
           fill

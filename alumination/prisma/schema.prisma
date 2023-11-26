@@ -31,8 +31,18 @@ model Song {
   profileId String
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
+  @@index([categoryId])
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  songs Song[]
 }
