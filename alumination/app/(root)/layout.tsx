@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { initialProfile } from "@/lib/initial-profile";
+import { db } from "@/lib/prismadb";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -8,9 +9,12 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const profile = await initialProfile();
 
+  const songs = await db.song.findMany();
+  const profiles = await db.profile.findMany();
+
   return (
     <div className="h-full">
-      <Navbar />
+      <Navbar songs={songs} profiles={profiles} />
       <main className="pt-16 h-full">{children}</main>
     </div>
   );

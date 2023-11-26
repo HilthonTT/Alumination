@@ -3,15 +3,21 @@
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { BoomBox, Focus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import { NavbarSearch } from "@/components/navbar-search";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { Button } from "@/components/ui/button";
 
-import { useRouter } from "next/navigation";
+import { Profile, Song } from "@prisma/client";
 
-export const Navbar = () => {
+interface NavbarProps {
+  profiles: Profile[];
+  songs: Song[];
+}
+
+export const Navbar = ({ profiles, songs }: NavbarProps) => {
   const router = useRouter();
 
   return (
@@ -27,7 +33,28 @@ export const Navbar = () => {
         </Link>
       </div>
       <div className="flex items-center w-[300px] justify-center">
-        <NavbarSearch data={[]} />
+        <NavbarSearch
+          data={[
+            {
+              label: "Songs",
+              type: "song",
+              data: songs?.map((song) => ({
+                id: song.id,
+                name: song.title,
+                src: song.imageUrl,
+              })),
+            },
+            {
+              label: "Artists",
+              type: "artist",
+              data: profiles?.map((profile) => ({
+                id: profile.id,
+                name: profile.username,
+                src: profile.imageUrl,
+              })),
+            },
+          ]}
+        />
       </div>
       <div className="flex items-center gap-x-1">
         <ModeToggle />

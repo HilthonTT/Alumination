@@ -12,15 +12,16 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { UserAvatar } from "./user-avatar";
 
-type DataType = "artist" | "band" | "album" | "music";
+type DataType = "artist" | "band" | "album" | "song";
 
 interface NavbarSearchProps {
   data: {
     label: string;
     type: DataType;
     data: {
-      icon: React.ReactNode;
+      src?: string;
       name: string;
       id: string;
     }[];
@@ -53,8 +54,8 @@ export const NavbarSearch = ({ data }: NavbarSearchProps) => {
         return router.push(`/albums/${id}`);
       case "band":
         return router.push(`/bands/${id}`);
-      case "music":
-        return router.push(`/musics/${id}`);
+      case "song":
+        return router.push(`/songs/${id}`);
     }
   };
 
@@ -68,8 +69,8 @@ export const NavbarSearch = ({ data }: NavbarSearchProps) => {
       </p>
       <kbd
         className="pointer-events-none inline-flex h-5 select-none items-center 
-            gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] 
-            font-medium text-muted-foreground ml-auto">
+          gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] 
+          font-medium text-muted-foreground ml-auto">
         <span className="text-xs">CTRL</span>K
       </kbd>
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -83,13 +84,14 @@ export const NavbarSearch = ({ data }: NavbarSearchProps) => {
 
             return (
               <CommandGroup key={label} heading={label}>
-                {data?.map(({ id, icon, name }) => {
+                {data?.map(({ id, src, name }) => {
                   return (
                     <CommandItem
                       key={id}
-                      onSelect={() => onClick({ id, type })}>
-                      {icon}
-                      <span>{name}</span>
+                      onSelect={() => onClick({ id, type })}
+                      className="cursor-pointer transition">
+                      <UserAvatar src={src} />
+                      <span className="ml-2 truncate">{name}</span>
                     </CommandItem>
                   );
                 })}
