@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
-
 import { SongWithProfile } from "@/types";
 import { SongCard } from "@/components/song-card";
+import { NoResults } from "@/components/no-results";
 
 interface SongsProps {
   data: SongWithProfile[];
@@ -11,16 +10,7 @@ interface SongsProps {
 
 export const Songs = ({ data }: SongsProps) => {
   if (data.length === 0) {
-    return (
-      <div className="pt-10 flex flex-col items-center justify-center space-y-3">
-        <div className="relative h-52 w-52">
-          <Image src="/empty-box.png" alt="Empty" fill className="grayscale" />
-        </div>
-        <p className="text-sm text-muted-foreground">
-          No songs have been found
-        </p>
-      </div>
-    );
+    return <NoResults src="/empty-box.png" title="No songs have been found." />;
   }
 
   return (
