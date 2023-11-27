@@ -11,9 +11,10 @@ import { UserAvatar } from "@/components/user-avatar";
 
 interface SongCardProps {
   song: SongWithProfile;
+  showProfile?: boolean;
 }
 
-export const SongCard = ({ song }: SongCardProps) => {
+export const SongCard = ({ song, showProfile = true }: SongCardProps) => {
   const router = useRouter();
 
   const onClick = () => {
@@ -42,12 +43,15 @@ export const SongCard = ({ song }: SongCardProps) => {
           className="object-cover rounded-lg"
         />
       </div>
+
       <div className="flex w-full items-center justify-center gap-x-2 mt-2">
-        <ActionTooltip label={song?.profile?.username} side="bottom">
-          <div onClick={(e) => onProfileClick(e)}>
-            <UserAvatar src={song?.profile?.imageUrl} />
-          </div>
-        </ActionTooltip>
+        {showProfile && (
+          <ActionTooltip label={song?.profile?.username} side="bottom">
+            <div onClick={(e) => onProfileClick(e)}>
+              <UserAvatar src={song?.profile?.imageUrl} />
+            </div>
+          </ActionTooltip>
+        )}
         <div className="text-white truncate w-full">
           <span className="font-semibold">{song.title}</span>
           <p className="text-sm font-thin truncate">

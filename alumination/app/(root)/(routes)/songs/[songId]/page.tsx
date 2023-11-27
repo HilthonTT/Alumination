@@ -5,6 +5,8 @@ import { SongFormCreate } from "@/components/songs/song-form-create";
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
 import { SongList } from "@/components/song-list";
+import { Container } from "@/components/container";
+import { NoResults } from "@/components/no-results";
 
 interface SongIdPageProps {
   params: {
@@ -22,7 +24,11 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
 
     const categories = await db.category.findMany();
 
-    return <SongFormCreate categories={categories} />;
+    return (
+      <Container className="mt-4 p-4">
+        <SongFormCreate categories={categories} />
+      </Container>
+    );
   }
 
   const song = await db.song.findUnique({
@@ -43,13 +49,17 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     },
   });
 
+  if (!song) {
+    return <NoResults src="/not-found.png" title="No song have been found." />;
+  }
+
   const isOwner = profile?.id === song?.profile.id;
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <Container>
       <SongDetails data={song} isOwner={isOwner} />
       <SongList data={relatedSongs} title="Related songs" />
-    </div>
+    </Container>
   );
 };
 

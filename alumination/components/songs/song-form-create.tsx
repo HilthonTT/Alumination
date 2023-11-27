@@ -105,149 +105,146 @@ export const SongFormCreate = ({ categories }: SongFormProps) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-2 p-4">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <div className="flex items-center justify-center text-center">
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <ImageUpload
-                      onChange={field.onChange}
-                      disabled={isLoading}
-                      value={field.value}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <div className="flex items-center justify-center text-center">
           <FormField
             control={form.control}
-            name="song"
+            name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song File
-                </FormLabel>
                 <FormControl>
-                  <Input
-                    accept="audio/mp3"
-                    type="file"
+                  <ImageUpload
+                    onChange={field.onChange}
                     disabled={isLoading}
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        field.onChange(e.target.files[0]); // Update the field value on change
-                      }
-                    }}
-                    onBlur={field.onBlur}
-                    ref={field.ref}
-                    name={field.name}
+                    value={field.value}
                   />
                 </FormControl>
-                <FormDescription>
-                  Upload your musical magic here — let your melody take center
-                  stage! 🎶📁
-                </FormDescription>
-                <FormMessage className="text-red-600" />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song Category
-                </FormLabel>
-                <Select
+        </div>
+        <FormField
+          control={form.control}
+          name="song"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="dark:text-zinc-200 uppercase">
+                Song File
+              </FormLabel>
+              <FormControl>
+                <Input
+                  accept="audio/mp3"
+                  type="file"
                   disabled={isLoading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="bg-background">
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder="Select a category"
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories?.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Pick the perfect category to harmonize your song's essence!
-                  🎵🎶
-                </FormDescription>
-                <FormMessage className="text-red-600" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song title
-                </FormLabel>
+                  className="focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      field.onChange(e.target.files[0]); // Update the field value on change
+                    }
+                  }}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                  name={field.name}
+                />
+              </FormControl>
+              <FormDescription>
+                Upload your musical magic here — let your melody take center
+                stage! 🎶📁
+              </FormDescription>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="categoryId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="dark:text-zinc-200 uppercase">
+                Song Category
+              </FormLabel>
+              <Select
+                disabled={isLoading}
+                onValueChange={field.onChange}
+                value={field.value}
+                defaultValue={field.value}>
                 <FormControl>
-                  <Input
-                    disabled={isLoading}
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0"
-                    placeholder="Ex: Flower's Wrath"
-                    {...field}
-                  />
+                  <SelectTrigger className="bg-background">
+                    <SelectValue
+                      defaultValue={field.value}
+                      placeholder="Select a category"
+                    />
+                  </SelectTrigger>
                 </FormControl>
-                <FormDescription>
-                  Give us the title that'll make the stars tap their feet! 🎶
-                </FormDescription>
-                <FormMessage className="text-red-600" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song Description
-                </FormLabel>
-                <FormControl>
-                  <Textarea
-                    disabled={isLoading}
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0"
-                    placeholder="Ex: A catchy tune with upbeat rhythm"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Describe your musical masterpiece in a few words, let the
-                  melody speak through your words! 🎵✨
-                </FormDescription>
-                <FormMessage className="text-red-600" />
-              </FormItem>
-            )}
-          />
-          <div className="w-full flex justify-center">
-            <Button size="lg" disabled={isLoading}>
-              Create your song
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+                <SelectContent>
+                  {categories?.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Pick the perfect category to harmonize your song's essence! 🎵🎶
+              </FormDescription>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="dark:text-zinc-200 uppercase">
+                Song title
+              </FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  className="focus-visible:ring-0 focus-visible:ring-offset-0"
+                  placeholder="Ex: Flower's Wrath"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Give us the title that'll make the stars tap their feet! 🎶
+              </FormDescription>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="dark:text-zinc-200 uppercase">
+                Song Description
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  disabled={isLoading}
+                  className="focus-visible:ring-0 focus-visible:ring-offset-0"
+                  placeholder="Ex: A catchy tune with upbeat rhythm"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Describe your musical masterpiece in a few words, let the melody
+                speak through your words! 🎵✨
+              </FormDescription>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+          )}
+        />
+        <div className="w-full flex justify-center">
+          <Button size="lg" disabled={isLoading}>
+            Create your song
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };

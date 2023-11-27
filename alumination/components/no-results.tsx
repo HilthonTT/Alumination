@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 interface NoResultsProps {
-  src: string;
+  src: "/empty-box.png" | "/not-found.png";
   title: string;
 }
 

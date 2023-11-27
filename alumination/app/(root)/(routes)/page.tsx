@@ -1,6 +1,7 @@
 import { db } from "@/lib/prismadb";
 import { Songs } from "@/components/songs";
 import { Categories } from "@/components/categories";
+import { Container } from "@/components/container";
 
 interface HomePageProps {
   searchParams: {
@@ -22,10 +23,10 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
 
   return (
     <div className="h-full w-full flex">
-      <div className="max-w-5xl mx-auto h-full">
+      <Container className="max-w-5xl h-full">
         <Categories data={categories} />
         <Songs data={songs} />
-      </div>
+      </Container>
     </div>
   );
 };
