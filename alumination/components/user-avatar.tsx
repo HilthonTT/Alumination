@@ -1,5 +1,7 @@
+import { Loader2 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface UserAvatarProps {
   src?: string;
@@ -23,7 +25,10 @@ export const UserAvatar = ({ src, className, size }: UserAvatarProps) => {
 
   return (
     <Avatar className={cn(avatarSizeClasses, className)}>
-      <AvatarImage src={src} />
+      <AvatarImage src={src} alt="Profile Picture" />
+      <AvatarFallback>
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </AvatarFallback>
     </Avatar>
   );
 };

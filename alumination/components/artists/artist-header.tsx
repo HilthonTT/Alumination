@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import { MoreVertical, UserPlus } from "lucide-react";
+import { MoreVertical, Music, UserPlus } from "lucide-react";
 
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { ProfileWithSongsWithProfile } from "@/types";
@@ -22,15 +22,25 @@ export const ArtistHeader = ({ profile }: ArtistHeaderProps) => {
 
   return (
     <div className="w-full flex">
-      <div className="flex">
+      <div className="flex w-full">
         <div className="relative mr-2">
           <UserAvatar src={profile.imageUrl} size="big" />
         </div>
-        <div className="mt-2 ml-2">
+        <div className="mt-2 ml-2 h-full w-full">
           <p className="text-2xl font-semibold">{capitalizedUsername}</p>
           <p className="text-sm text-muted-foreground">
             Joined {formatDistanceToNow(profile?.createdAt)} ago
           </p>
+          <div className="flex justify-between mt-7">
+            <div className="flex space-x-3">
+              <p>123 followers</p>
+              <p>456 following</p>
+            </div>
+            <div className="flex items-center justify-center">
+              <Music className="h-5 w-5 mr-2" />
+              123 songs
+            </div>
+          </div>
         </div>
       </div>
       <div className="ml-auto">
