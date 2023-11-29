@@ -45,7 +45,27 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(song);
+    // Create notifications for followers
+    const followers = await db.following.findMany({
+      where: { followeeId: profile.id },
+      select: { followerId: true },
+    });
+
+    const notifications = await Promise.all(
+      followers.map(async (follower) => {
+        const notification = await db.notification.create({
+          data: {
+            body: `has created a new song: ${song?.title}`,
+            receiverId: follower.followerId,
+            issuerId: profile.id,
+            songId: song?.id,
+          },
+        });
+        return notification;
+      })
+    );
+
+    return NextResponse.json({ song, notifications });
   } catch (error) {
     console.log("[SONGS_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });

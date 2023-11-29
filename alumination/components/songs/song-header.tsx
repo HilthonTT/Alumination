@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Edit, MoreVertical, Trash } from "lucide-react";
 
+import { capitalizeFirstLetter } from "@/lib/utils";
 import { SongWithProfile } from "@/types";
 import { useModal } from "@/hooks/use-modal-store";
 import { ActionTooltip } from "@/components/action-tooltip";
@@ -24,6 +25,8 @@ export const SongHeader = ({ data, isOwner }: SongHeaderProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
+  const capitalizedUsername = capitalizeFirstLetter(data?.profile.username);
+
   return (
     <>
       <span className="text-2xl font-semibold">
@@ -34,8 +37,8 @@ export const SongHeader = ({ data, isOwner }: SongHeaderProps) => {
       </span>
       <div className="flex items-center space-x-1">
         <button onClick={() => router.push(`/artists/${data?.profile?.id}`)}>
-          <ActionTooltip label={data?.profile.username} side="bottom">
-            <div className="relative">
+          <ActionTooltip label={capitalizedUsername} side="bottom">
+            <div className="relative hover:opacity-75 transition">
               <UserAvatar src={data?.profile.imageUrl} />
             </div>
           </ActionTooltip>

@@ -2,22 +2,23 @@
 
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { BoomBox, Focus } from "lucide-react";
+import { Bell, BoomBox, Focus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Profile, Song, Notification } from "@prisma/client";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import { NavbarSearch } from "@/components/navbar-search";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { Button } from "@/components/ui/button";
-
-import { Profile, Song } from "@prisma/client";
+import { PingNotification } from "@/components/ping-notification";
 
 interface NavbarProps {
   profiles: Profile[];
   songs: Song[];
+  notifications: Notification[];
 }
 
-export const Navbar = ({ profiles, songs }: NavbarProps) => {
+export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
   const router = useRouter();
 
   return (
@@ -26,11 +27,24 @@ export const Navbar = ({ profiles, songs }: NavbarProps) => {
         <Link href="/">
           <h1
             className="font-semibold text-2xl hidden md:flex items-center gap-x-2
-             text-white hover:text-zinc-200 transition">
+             text-white hover:opacity-75 transition">
             <BoomBox className="h-8 w-8" />
             Alumination
           </h1>
         </Link>
+        <div className="ml-5">
+          <Link href="/notifications" className="relative">
+            <div className="flex items-center space-x-2 hover:opacity-75 transition">
+              <Bell className="h-4 w-4" />
+              <span className="text-white relative">Notifications</span>
+              {notifications?.length !== 0 && (
+                <div className="absolute top-0 -right-1 translate-x-1/2 -translate-y-1/ flex items-center justify-center">
+                  <PingNotification />
+                </div>
+              )}
+            </div>
+          </Link>
+        </div>
       </div>
       <div className="flex items-center w-[300px] justify-center">
         <NavbarSearch

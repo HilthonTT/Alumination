@@ -20,7 +20,9 @@ model Profile {
 
   followers Following[] @relation("Followee")
   followingArtists Following[] @relation("Follower")
-  Notification Notification[]
+
+  ReceivedNotification Notification[] @relation("Receiver")
+  IssuedNotification Notification[] @relation("Issuer")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,8 +75,16 @@ model Notification {
   id String @id @default(uuid())
   body String
 
-  profileId String
-  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  receiverId String
+  receiver Profile @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
-  @@index([profileId])
+  issuerId String
+  issuer Profile @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade)
+
+  songId String
+
+  @@index([receiverId])
+  @@index([issuerId])
+
+  @@unique([receiverId, issuerId])
 }
