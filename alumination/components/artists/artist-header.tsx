@@ -1,10 +1,13 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import { MoreVertical, Music, UserPlus } from "lucide-react";
+import { MoreVertical, Music, UserPlus, UserMinus } from "lucide-react";
+import { Following } from "@prisma/client";
 
-import { capitalizeFirstLetter } from "@/lib/utils";
+import { useModal } from "@/hooks/use-modal-store";
+import { capitalizeFirstLetter, formatPlural } from "@/lib/utils";
 import { ProfileWithSongsWithProfile } from "@/types";
+
 import { UserAvatar } from "@/components/user-avatar";
 import {
   DropdownMenu,
@@ -15,10 +18,24 @@ import {
 
 interface ArtistHeaderProps {
   profile: ProfileWithSongsWithProfile;
+  isOwner: boolean;
+  isFollowing: boolean;
+  followers: Following[];
+  following: Following[];
 }
 
-export const ArtistHeader = ({ profile }: ArtistHeaderProps) => {
+export const ArtistHeader = ({
+  profile,
+  isOwner,
+  isFollowing,
+  followers,
+  following,
+}: ArtistHeaderProps) => {
+  const { onOpen } = useModal();
+
   const capitalizedUsername = capitalizeFirstLetter(profile?.username);
+
+  const Icon = isFollowing ? UserMinus : UserPlus;
 
   return (
     <div className="w-full flex">
@@ -33,33 +50,35 @@ export const ArtistHeader = ({ profile }: ArtistHeaderProps) => {
           </p>
           <div className="flex justify-between mt-7">
             <div className="flex space-x-3">
-              <p>123 followers</p>
-              <p>456 following</p>
+              <p>{formatPlural(followers.length, "follower", "followers")}</p>
+              <p>{formatPlural(following.length, "following", "followings")}</p>
             </div>
             <div className="flex items-center justify-center">
               <Music className="h-5 w-5 mr-2" />
-              123 songs
+              {formatPlural(profile?.songs?.length, "song", "songs")}
             </div>
           </div>
         </div>
       </div>
-      <div className="ml-auto">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="focus:outline-none" asChild>
-            <button className="flex items-center hover:opacity-75 transition">
-              <MoreVertical className="h-8 w-8" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-white space-y-[2px]">
-            <DropdownMenuItem
-              onClick={() => {}}
-              className="cursor-pointer text-sm px-3">
-              Follow
-              <UserPlus className="h-4 w-4 ml-auto" />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      {!isOwner && (
+        <div className="ml-auto">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none" asChild>
+              <button className="flex items-center hover:opacity-75 transition">
+                <MoreVertical className="h-8 w-8" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-white space-y-[2px]">
+              <DropdownMenuItem
+                onClick={() => onOpen("follow", { profile, isFollowing })}
+                className="cursor-pointer text-sm px-3">
+                {isFollowing ? "Unfollow" : "Follow"}
+                <Icon className="h-4 w-4 ml-auto" />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </div>
   );
 };

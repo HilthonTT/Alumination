@@ -13,3 +13,11 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
 
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const formatPlural = (
+  count: number,
+  singularText: string,
+  pluralText: string
+) => {
+  return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
+};

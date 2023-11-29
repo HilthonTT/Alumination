@@ -18,6 +18,10 @@ model Profile {
 
   songs Song[]
 
+  followers Following[] @relation("Followee")
+  followingArtists Following[] @relation("Follower")
+  Notification Notification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -47,4 +51,30 @@ model Category {
   id String @id @default(uuid())
   name String
   songs Song[]
+}
+
+
+model Following {
+  id String @id @default(uuid())
+
+  followeeId String
+  followee Profile @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
+
+  followerId String
+  follower Profile @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+
+  @@index([followeeId])
+  @@index([followerId])
+
+  @@unique([followeeId, followerId])
+}
+
+model Notification {
+  id String @id @default(uuid())
+  body String
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
 }
