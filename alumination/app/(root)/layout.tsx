@@ -22,10 +22,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
   return (
     <div className="h-full">
       <Navbar songs={songs} profiles={profiles} notifications={notifications} />
-      <main className="pt-16 h-full">
-        <NavigationArrows />
-        {children}
-      </main>
+      <main className="pt-16 h-full">{children}</main>
     </div>
   );
 };

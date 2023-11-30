@@ -6,8 +6,9 @@ import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-
 import { Category, Song } from "@prisma/client";
+
+import { useModal } from "@/hooks/use-modal-store";
 import {
   Form,
   FormControl,
@@ -28,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PageHeader } from "@/components/page-header";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -51,6 +53,7 @@ interface SongFormProps {
 
 export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
   const router = useRouter();
+  const { onOpen } = useModal();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -84,7 +87,8 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-2 p-4">
+    <>
+      <PageHeader title="Update your song" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="flex items-center justify-center text-center">
@@ -189,13 +193,21 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-between">
+            <Button
+              onClick={() => onOpen("deleteSong", { song: initialData })}
+              size="lg"
+              type="button"
+              variant="destructive"
+              disabled={isLoading}>
+              Delete the song
+            </Button>
             <Button size="lg" disabled={isLoading}>
               Update your song
             </Button>
           </div>
         </form>
       </Form>
-    </div>
+    </>
   );
 };

@@ -7,6 +7,7 @@ import { currentProfile } from "@/lib/current-profile";
 import { SongList } from "@/components/song-list";
 import { Container } from "@/components/container";
 import { NoResults } from "@/components/no-results";
+import { PageHeader } from "@/components/page-header";
 
 interface SongIdPageProps {
   params: {
@@ -25,7 +26,7 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     const categories = await db.category.findMany();
 
     return (
-      <Container className="mt-4 p-4">
+      <Container>
         <SongFormCreate categories={categories} />
       </Container>
     );
@@ -57,6 +58,7 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
 
   return (
     <Container>
+      <PageHeader title={song?.title} />
       <SongDetails data={song} isOwner={isOwner} />
       <SongList data={relatedSongs} title="Related songs" />
     </Container>

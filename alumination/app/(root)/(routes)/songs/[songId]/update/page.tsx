@@ -3,6 +3,7 @@ import { redirectToSignIn } from "@clerk/nextjs";
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
 import { SongFormUpdate } from "@/components/songs/song-form-update";
+import { Container } from "@/components/container";
 
 interface SongIdUpdatePageProps {
   params: {
@@ -26,7 +27,11 @@ const SongIdUpdatePage = async ({ params }: SongIdUpdatePageProps) => {
     },
   });
 
-  return <SongFormUpdate categories={categories} initialData={song!} />;
+  return (
+    <Container>
+      <SongFormUpdate categories={categories} initialData={song!} />
+    </Container>
+  );
 };
 
 export default SongIdUpdatePage;
