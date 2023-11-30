@@ -1,4 +1,6 @@
 import { Navbar } from "@/components/navbar";
+import { NavigationArrows } from "@/components/navigation-arrow";
+
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/prismadb";
 
@@ -20,7 +22,10 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
   return (
     <div className="h-full">
       <Navbar songs={songs} profiles={profiles} notifications={notifications} />
-      <main className="pt-16 h-full">{children}</main>
+      <main className="pt-16 h-full">
+        <NavigationArrows />
+        {children}
+      </main>
     </div>
   );
 };
