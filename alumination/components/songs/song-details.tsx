@@ -7,7 +7,7 @@ import { SongWithProfile } from "@/types";
 import { useLoadSongUrl } from "@/hooks/use-load-song-url";
 import { NoResults } from "@/components/no-results";
 import { PlayerContent } from "@/components/player-content";
-import { SongHeader } from "./song-header";
+import { SongHeader } from "@/components/songs/song-header";
 
 interface SongDetailsProps {
   data: SongWithProfile | null;

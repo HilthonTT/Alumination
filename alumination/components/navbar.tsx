@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { Bell, BoomBox, Focus } from "lucide-react";
+import { Bell, BoomBox, Focus, Music } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Profile, Song, Notification } from "@prisma/client";
 
@@ -11,6 +11,7 @@ import { NavbarSearch } from "@/components/navbar-search";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { Button } from "@/components/ui/button";
 import { PingNotification } from "@/components/ping-notification";
+import { LinkElement } from "@/components/link-element";
 
 interface NavbarProps {
   profiles: Profile[];
@@ -20,6 +21,31 @@ interface NavbarProps {
 
 export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
   const router = useRouter();
+
+  const routes = [
+    {
+      label: "Notifications",
+      href: "/notifications",
+      icon: Bell,
+      children: (
+        <>
+          {notifications?.length !== 0 && (
+            <div className="absolute top-0 -right-1 translate-x-1/2 -translate-y-1/ flex items-center justify-center">
+              <PingNotification />
+            </div>
+          )}
+        </>
+      ),
+      loggedInOnly: true,
+    },
+    {
+      label: "My songs",
+      href: "/my-songs",
+      icon: Music,
+      children: null,
+      loggedInOnly: true,
+    },
+  ];
 
   return (
     <div className="fixed bg-slate-800 justify-between items-center h-14 w-full mb-16 z-50 flex py-2 px-4 border-b-slate-700">
@@ -32,21 +58,14 @@ export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
             Alumination
           </h1>
         </Link>
-        <div className="ml-5">
-          <Link href="/notifications" className="relative">
-            <div className="flex items-center space-x-2 hover:opacity-75 transition">
-              <Bell className="h-4 w-4" />
-              <span className="text-white relative">Notifications</span>
-              {notifications?.length !== 0 && (
-                <div className="absolute top-0 -right-1 translate-x-1/2 -translate-y-1/ flex items-center justify-center">
-                  <PingNotification />
-                </div>
-              )}
-            </div>
-          </Link>
-        </div>
+
+        {routes?.map((route) => (
+          <LinkElement key={route.href} {...route}>
+            {route.children && route.children}
+          </LinkElement>
+        ))}
       </div>
-      <div className="flex items-center w-[300px] justify-center">
+      <div className="flex items-center w-[320px] justify-center">
         <NavbarSearch
           data={[
             {
