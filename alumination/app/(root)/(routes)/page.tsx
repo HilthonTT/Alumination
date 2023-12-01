@@ -18,6 +18,9 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
     include: {
       profile: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   const categories = await db.category.findMany();

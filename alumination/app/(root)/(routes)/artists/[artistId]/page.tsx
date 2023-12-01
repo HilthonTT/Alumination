@@ -28,6 +28,9 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
             search: searchParams.artistSongName,
           },
         },
+        orderBy: {
+          createdAt: "desc",
+        },
         include: {
           profile: true,
         },

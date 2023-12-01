@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { Bell, BoomBox, Focus, Music } from "lucide-react";
+import { Album, Bell, BoomBox, Focus, Music } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Profile, Song, Notification } from "@prisma/client";
 
@@ -23,6 +23,13 @@ export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
   const router = useRouter();
 
   const routes = [
+    {
+      label: "Albums",
+      href: "/albums",
+      icon: Album,
+      children: null,
+      loggedInOnly: false,
+    },
     {
       label: "Notifications",
       href: "/notifications",

@@ -1,4 +1,4 @@
-import { Profile, Song, Notification } from "@prisma/client";
+import { Profile, Song, Notification, Album } from "@prisma/client";
 
 export type SongWithProfile = Song & {
   profile: Profile;
@@ -11,4 +11,8 @@ export type ProfileWithSongsWithProfile = Profile & {
 export type NotificationWithProfile = Notification & {
   issuer: Profile;
   receiver: Profile;
+};
+
+export type AlbumWithProfile = Album & {
+  profile: Profile;
 };

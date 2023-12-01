@@ -17,6 +17,8 @@ model Profile {
   email String @db.Text
 
   songs Song[]
+  albumSong AlbumSong[]
+  album Album[]
 
   followers Following[] @relation("Followee")
   followingArtists Following[] @relation("Follower")
@@ -52,7 +54,9 @@ model Song {
 model Category {
   id String @id @default(uuid())
   name String
+
   songs Song[]
+  albums Album[]
 }
 
 
@@ -87,4 +91,47 @@ model Notification {
   @@index([issuerId])
 
   @@unique([receiverId, issuerId])
+}
+
+model AlbumSong {
+  id String @id @default(uuid())
+
+  title String
+  description String
+  songPath String
+  imageUrl String
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  albumId String
+  album Album @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([albumId])
+}
+
+model Album {
+  id String @id @default(uuid())
+
+  title String
+  description String
+  imageUrl String
+
+  songs AlbumSong[]
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  categoryId String
+  category Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([categoryId])
 }
