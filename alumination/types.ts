@@ -13,6 +13,10 @@ export type NotificationWithProfile = Notification & {
   receiver: Profile;
 };
 
+export type AlbumWithProfile = Album & {
+  profile: Profile;
+};
+
 export type AlbumWithProfileWithSongs = Album & {
   profile: Profile;
   songs: AlbumSong[];

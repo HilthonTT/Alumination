@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Category, Song } from "@prisma/client";
-import { Trash } from "lucide-react";
+import { v4 as uuid } from "uuid";
 
-import { useModal } from "@/hooks/use-modal-store";
+import { Album } from "@prisma/client";
+import { supabase } from "@/lib/supabase";
 import {
   Form,
   FormControl,
@@ -23,13 +23,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload } from "@/components/image-upload";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { PageHeader } from "@/components/page-header";
 
 const formSchema = z.object({
@@ -42,43 +35,57 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, {
     message: "Song image is required.",
   }),
-  categoryId: z.string().min(1, {
-    message: "The category is required.",
-  }),
+  song: z.any(),
 });
 
-interface SongFormProps {
-  categories: Category[];
-  initialData: Song;
+interface AlbumSongFormProps {
+  album: Album;
 }
 
-export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
+export const AlbumSongFormCreate = ({ album }: AlbumSongFormProps) => {
   const router = useRouter();
-  const { onOpen } = useModal();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: initialData?.title || "",
-      description: initialData?.description || "",
-      imageUrl: initialData?.imageUrl || "",
-      categoryId: initialData?.categoryId,
+      title: "",
+      description: "",
+      imageUrl: "",
+      song: null,
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const toastId = toast.loading("Please wait until we update your song.");
+    if (!values.song) {
+      return toast.error("Song file is missing.");
+    }
+
+    const toastId = toast.loading("Please wait until we upload your song.");
 
     try {
-      await axios.patch(`/api/songs/${initialData?.id}`, values);
+      const uniqueID = uuid();
+
+      const { data: songData, error: songError } = await supabase.storage
+        .from("songs")
+        .upload(`song-${values.title}-${uniqueID}`, values.song, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      const postedValues = {
+        ...values,
+        songPath: songData?.path,
+      };
+
+      await axios.post(`/api/albums/${album?.id}/songs`, postedValues);
 
       toast.success("Success!");
 
       router.refresh();
       form.reset();
-      window.location.href = "/";
+      window.location.href = "/albums";
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -89,7 +96,7 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
 
   return (
     <>
-      <PageHeader title="Update your song" />
+      <PageHeader title="Upload a song for your album" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="flex items-center justify-center text-center">
@@ -109,39 +116,33 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
               )}
             />
           </div>
-
           <FormField
             control={form.control}
-            name="categoryId"
+            name="song"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="dark:text-zinc-200 uppercase">
-                  Song Category
+                  Song File
                 </FormLabel>
-                <Select
-                  disabled={isLoading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="bg-background">
-                      <SelectValue
-                        defaultValue={field.value}
-                        placeholder="Select a category"
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories?.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <Input
+                    accept="audio/mp3"
+                    type="file"
+                    disabled={isLoading}
+                    className="focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        field.onChange(e.target.files[0]); // Update the field value on change
+                      }
+                    }}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                    name={field.name}
+                  />
+                </FormControl>
                 <FormDescription>
-                  Pick the perfect category to harmonize your song's essence!
-                  🎵🎶
+                  Upload your musical magic here — let your melody take center
+                  stage! 🎶📁
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>
@@ -194,18 +195,9 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-between">
-            <Button
-              onClick={() => onOpen("deleteSong", { song: initialData })}
-              size="lg"
-              type="button"
-              variant="destructive"
-              disabled={isLoading}>
-              Delete the song
-              <Trash className="h-4 w-4 ml-1" />
-            </Button>
+          <div className="w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
-              Update your song
+              Create your song
             </Button>
           </div>
         </form>

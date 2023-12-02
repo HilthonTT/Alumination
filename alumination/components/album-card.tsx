@@ -50,7 +50,7 @@ export const AlbumCard = ({ album }: AlbumCardProps) => {
           <ActionTooltip label="Settings">
             <div
               className={cn(
-                "absolute top-2 right-2 transition",
+                "absolute top-2 right-2 transition0",
                 isIconHovered
                   ? "opacity-75"
                   : "opacity-0 group-hover:opacity-100"

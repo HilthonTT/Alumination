@@ -7,6 +7,7 @@ import { Album, Category } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Music, Plus, Trash } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import {
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/image-upload";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -52,6 +54,7 @@ interface AlbumFormProps {
 
 export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
   const router = useRouter();
+  const { onOpen } = useModal();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -96,6 +99,22 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
   return (
     <>
       <PageHeader title={title} />
+      {initialData && (
+        <div className="flex items-center justify-between">
+          <Button
+            onClick={() =>
+              router.push(`/albums/${initialData?.id}/songs/create`)
+            }>
+            Add a song
+            <Plus className="h-4 w-4 ml-1" />
+          </Button>
+          <Button
+            onClick={() => router.push(`/albums/${initialData?.id}/songs`)}>
+            View Songs
+            <Music className="h-4 w-4 ml-1" />
+          </Button>
+        </div>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="flex items-center justify-center text-center">
@@ -199,7 +218,18 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-between">
+            {initialData && (
+              <Button
+                onClick={() => onOpen("deleteAlbum", { album: initialData })}
+                size="lg"
+                variant="destructive"
+                type="button"
+                disabled={isLoading}>
+                Delete your album
+                <Trash className="h-4 w-4 ml-1" />
+              </Button>
+            )}
             <Button size="lg" disabled={isLoading}>
               {button}
             </Button>
