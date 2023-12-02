@@ -75,9 +75,15 @@ model Following {
   @@unique([followeeId, followerId])
 }
 
+enum NotificationType {
+  SONG
+  ALBUM
+}
+
 model Notification {
   id String @id @default(uuid())
   body String
+  type NotificationType @default(SONG)
 
   receiverId String
   receiver Profile @relation("Receiver", fields: [receiverId], references: [id], onDelete: Cascade)
@@ -85,7 +91,7 @@ model Notification {
   issuerId String
   issuer Profile @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade)
 
-  songId String
+  itemId String
 
   @@index([receiverId])
   @@index([issuerId])

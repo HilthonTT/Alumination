@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/prismadb";
+import { rateLimit } from "@/lib/rate-limit";
+import { currentProfile } from "@/lib/current-profile";
 
 interface SongIdProps {
   params: {
@@ -10,6 +12,19 @@ interface SongIdProps {
 
 export async function GET(req: Request, { params }: SongIdProps) {
   try {
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Not authorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
+    }
+
     const song = await db.albumSong.findUnique({
       where: {
         id: params.songId,

@@ -1,17 +1,46 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
+import { rateLimit } from "@/lib/rate-limit";
+import { NotificationType } from "@prisma/client";
+
+const RequestValidator = z.object({
+  title: z.string().min(1, {
+    message: "Song title is required.",
+  }),
+  description: z.string().min(1, {
+    message: "Song description is required.",
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Song image is required.",
+  }),
+  categoryId: z.string().min(1, {
+    message: "The category is required.",
+  }),
+  songPath: z.string().min(1, {
+    message: "Song path is required.",
+  }),
+});
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     const profile = await currentProfile();
 
-    const { imageUrl, songPath, title, description, categoryId } = body;
+    const { imageUrl, songPath, title, description, categoryId } =
+      await RequestValidator.parseAsync(body);
 
     if (!profile || !profile?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     if (!imageUrl) {
@@ -58,7 +87,8 @@ export async function POST(req: Request) {
             body: `has created a new song: ${song?.title}`,
             receiverId: follower.followerId,
             issuerId: profile.id,
-            songId: song?.id,
+            itemId: song?.id,
+            type: NotificationType.SONG,
           },
         });
         return notification;

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
+import { rateLimit } from "@/lib/rate-limit";
+import { NotificationType } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -12,6 +14,13 @@ export async function POST(req: Request) {
 
     if (!profile || !profile?.id) {
       return new NextResponse("Not authorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     if (!title) {
@@ -40,7 +49,28 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(album);
+    // Create notifications for followers
+    const followers = await db.following.findMany({
+      where: { followeeId: profile.id },
+      select: { followerId: true },
+    });
+
+    const notifications = await Promise.all(
+      followers.map(async (follower) => {
+        const notification = await db.notification.create({
+          data: {
+            body: `has created a new album: ${album?.title}`,
+            receiverId: follower.followerId,
+            issuerId: profile.id,
+            itemId: album?.id,
+            type: NotificationType.ALBUM,
+          },
+        });
+        return notification;
+      })
+    );
+
+    return NextResponse.json({ album, notifications });
   } catch (error) {
     console.log("[ALBUMS_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });

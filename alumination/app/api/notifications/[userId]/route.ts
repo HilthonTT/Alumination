@@ -2,6 +2,7 @@ import { db } from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(
   req: Request,
@@ -12,6 +13,13 @@ export async function POST(
 
     if (!profile || !profile?.id) {
       return new NextResponse("Not authorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     if (!params.userId) {

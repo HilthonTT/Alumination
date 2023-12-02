@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import { NotificationType } from "@prisma/client";
 
 import { NotificationWithProfile } from "@/types";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 
 interface NotificationCardProps {
   notification: NotificationWithProfile;
@@ -19,8 +20,20 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
     notification?.issuer?.username
   );
 
+  const onClick = () => {
+    switch (notification.type) {
+      case NotificationType.SONG:
+        return router.push(`/songs/${notification.itemId}`);
+      case NotificationType.ALBUM:
+        return router.push(`/albums/${notification.itemId}`);
+    }
+  };
+
+  const label =
+    notification.type === NotificationType.ALBUM ? "Visit album" : "Visit song";
+
   return (
-    <div className="flex items-center w-full bg-slate-700 p-2 rounded-full">
+    <div className="flex items-center w-full bg-slate-700 p-2 rounded-full mb-5">
       <ActionTooltip label={capitalizedUsername}>
         <div
           onClick={() => router.push(`/artists/${notification?.issuerId}`)}
@@ -39,11 +52,14 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         </p>
       </div>
       <div className="ml-auto mr-10">
-        <button
-          onClick={() => router.push(`/songs/${notification.songId}`)}
-          className="flex items-center justify-center hover:opacity-75 transition">
-          <ArrowRight className="h-8 w-8" />
-        </button>
+        <ActionTooltip label={label}>
+          <button
+            onClick={onClick}
+            className="flex items-center justify-center hover:opacity-75 transition">
+            <span className="sr-only">Visit {label}</span>
+            <ArrowRight className="h-8 w-8" />
+          </button>
+        </ActionTooltip>
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
+import { rateLimit } from "@/lib/rate-limit";
 
 export interface AlbumIdProps {
   params: {
@@ -9,15 +11,38 @@ export interface AlbumIdProps {
   };
 }
 
+const RequestValidator = z.object({
+  title: z.string().min(1, {
+    message: "Album title is required.",
+  }),
+  description: z.string().min(1, {
+    message: "Album description is required.",
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Album image is required.",
+  }),
+  categoryId: z.string().min(1, {
+    message: "The category is required.",
+  }),
+});
+
 export async function PATCH(req: Request, { params }: AlbumIdProps) {
   try {
     const profile = await currentProfile();
     const body = await req.json();
 
-    const { title, description, categoryId, imageUrl } = body;
+    const { title, description, categoryId, imageUrl } =
+      await RequestValidator.parseAsync(body);
 
     if (!profile || !profile?.id) {
       return new NextResponse("Not authorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     if (!title) {

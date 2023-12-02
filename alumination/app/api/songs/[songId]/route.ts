@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { supabase } from "@/lib/supabase";
+import { rateLimit } from "@/lib/rate-limit";
 
 interface SongIdProps {
   params: {
@@ -10,12 +12,28 @@ interface SongIdProps {
   };
 }
 
+const RequestValidator = z.object({
+  title: z.string().min(1, {
+    message: "Song title is required.",
+  }),
+  description: z.string().min(1, {
+    message: "Song description is required.",
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Song image is required.",
+  }),
+  categoryId: z.string().min(1, {
+    message: "The category is required.",
+  }),
+});
+
 export async function PATCH(req: Request, { params }: SongIdProps) {
   try {
     const body = await req.json();
     const profile = await currentProfile();
 
-    const { title, description, imageUrl, categoryId } = body;
+    const { title, description, imageUrl, categoryId } =
+      await RequestValidator.parseAsync(body);
 
     if (!params.songId) {
       return new NextResponse("Song ID is required", { status: 400 });
@@ -23,6 +41,13 @@ export async function PATCH(req: Request, { params }: SongIdProps) {
 
     if (!profile || !profile?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     if (!title) {
