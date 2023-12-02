@@ -1,11 +1,12 @@
 "use client";
 
-import { AlbumWithProfile } from "@/types";
+import { AlbumWithProfileWithSongs } from "@/types";
 import { PageHeader } from "@/components/page-header";
 import { NoResults } from "@/components/no-results";
+import { AlbumCard } from "@/components/album-card";
 
 interface AlbumsProps {
-  albums: AlbumWithProfile[];
+  albums: AlbumWithProfileWithSongs[];
 }
 
 export const Albums = ({ albums }: AlbumsProps) => {
@@ -18,7 +19,7 @@ export const Albums = ({ albums }: AlbumsProps) => {
         <>
           <div className="gap-2 pb-10 grid grid-cols-4">
             {albums.map((album) => (
-              <div key={album.id}>{album.title}</div>
+              <AlbumCard key={album.id} album={album} />
             ))}
           </div>
         </>

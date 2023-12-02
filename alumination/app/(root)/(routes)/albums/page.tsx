@@ -6,6 +6,7 @@ const AlbumsPage = async () => {
   const albums = await db.album.findMany({
     include: {
       profile: true,
+      songs: true,
     },
     orderBy: {
       createdAt: "desc",
