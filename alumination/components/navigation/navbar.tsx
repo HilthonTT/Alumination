@@ -111,6 +111,7 @@ export const Navbar = ({
           ]}
         />
       </div>
+
       <div className="flex items-center gap-x-1">
         <ModeToggle />
         <ActionTooltip label="Create">
