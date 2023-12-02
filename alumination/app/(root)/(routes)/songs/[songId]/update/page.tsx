@@ -1,6 +1,7 @@
 import { redirectToSignIn } from "@clerk/nextjs";
-
+import { redirect } from "next/navigation";
 import { db } from "@/lib/prismadb";
+
 import { currentProfile } from "@/lib/current-profile";
 import { SongFormUpdate } from "@/components/songs/song-form-update";
 import { Container } from "@/components/container";
@@ -26,6 +27,10 @@ const SongIdUpdatePage = async ({ params }: SongIdUpdatePageProps) => {
       profileId: profile.id,
     },
   });
+
+  if (!song) {
+    return redirect("/");
+  }
 
   return (
     <Container>

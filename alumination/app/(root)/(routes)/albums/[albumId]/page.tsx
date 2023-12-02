@@ -3,7 +3,7 @@ import { redirectToSignIn } from "@clerk/nextjs";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { Container } from "@/components/container";
-import { AlbumFormCreate } from "@/components/albums/album-form-create";
+import { AlbumForm } from "@/components/albums/album-form";
 
 interface AlbumIdPageProps {
   params: {
@@ -23,7 +23,7 @@ const AlbumIdPage = async ({ params }: AlbumIdPageProps) => {
 
     return (
       <Container>
-        <AlbumFormCreate categories={categories} />
+        <AlbumForm categories={categories} />
       </Container>
     );
   }

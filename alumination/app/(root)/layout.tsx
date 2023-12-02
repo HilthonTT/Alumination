@@ -13,6 +13,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   const songs = await db.song.findMany();
   const profiles = await db.profile.findMany();
+  const albums = await db.album.findMany();
   const notifications = await db.notification.findMany({
     where: {
       receiverId: profile?.id,
@@ -21,7 +22,12 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
 
   return (
     <div className="h-full">
-      <Navbar songs={songs} profiles={profiles} notifications={notifications} />
+      <Navbar
+        songs={songs}
+        profiles={profiles}
+        notifications={notifications}
+        albums={albums}
+      />
       <main className="pt-16 h-full">{children}</main>
     </div>
   );

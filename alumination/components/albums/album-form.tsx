@@ -3,7 +3,7 @@
 import * as z from "zod";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Category } from "@prisma/client";
+import { Album, Category } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,20 +45,21 @@ const formSchema = z.object({
   }),
 });
 
-interface AlbumFormCreateProps {
+interface AlbumFormProps {
   categories: Category[];
+  initialData?: Album;
 }
 
-export const AlbumFormCreate = ({ categories }: AlbumFormCreateProps) => {
+export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      imageUrl: "",
-      categoryId: "",
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      imageUrl: initialData?.imageUrl || "",
+      categoryId: initialData?.categoryId || "",
     },
   });
 
@@ -68,12 +69,19 @@ export const AlbumFormCreate = ({ categories }: AlbumFormCreateProps) => {
     const toastId = toast.loading("Please wait until we create your album.");
 
     try {
-      await axios.post("/api/albums", values);
+      if (initialData) {
+        await axios.patch(`/api/albums/${initialData.id}`, values);
+      } else {
+        await axios.post("/api/albums", values);
+      }
+
       toast.success("Success!");
 
       router.refresh();
       form.reset();
-      window.location.href = "/albums";
+      window.location.href = initialData
+        ? `/albums/${initialData?.id}`
+        : "/albums";
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong.");
@@ -82,9 +90,12 @@ export const AlbumFormCreate = ({ categories }: AlbumFormCreateProps) => {
     }
   };
 
+  const title = initialData ? "Update your album" : "Create an album";
+  const button = initialData ? "Update your album" : "Create your album";
+
   return (
     <>
-      <PageHeader title="Create an album" />
+      <PageHeader title={title} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <div className="flex items-center justify-center text-center">
@@ -190,7 +201,7 @@ export const AlbumFormCreate = ({ categories }: AlbumFormCreateProps) => {
           />
           <div className="w-full flex justify-center">
             <Button size="lg" disabled={isLoading}>
-              Create your album
+              {button}
             </Button>
           </div>
         </form>

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { Album, Bell, BoomBox, Focus, Music } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Profile, Song, Notification } from "@prisma/client";
+import { Album as AlbumIcon, Bell, BoomBox, Focus, Music } from "lucide-react";
+import { Profile, Song, Notification, Album } from "@prisma/client";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import { NavbarSearch } from "@/components/navbar-search";
@@ -17,16 +17,22 @@ interface NavbarProps {
   profiles: Profile[];
   songs: Song[];
   notifications: Notification[];
+  albums: Album[];
 }
 
-export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
+export const Navbar = ({
+  profiles,
+  songs,
+  notifications,
+  albums,
+}: NavbarProps) => {
   const router = useRouter();
 
   const routes = [
     {
       label: "Albums",
       href: "/albums",
-      icon: Album,
+      icon: AlbumIcon,
       children: null,
       loggedInOnly: false,
     },
@@ -82,6 +88,15 @@ export const Navbar = ({ profiles, songs, notifications }: NavbarProps) => {
                 id: song.id,
                 name: song.title,
                 src: song.imageUrl,
+              })),
+            },
+            {
+              label: "Albms",
+              type: "album",
+              data: albums?.map((album) => ({
+                id: album.id,
+                name: album.title,
+                src: album.imageUrl,
               })),
             },
             {
