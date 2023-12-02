@@ -5,12 +5,14 @@ import { Album } from "lucide-react";
 
 import { AlbumWithProfileWithSongs } from "@/types";
 import { formatPlural } from "@/lib/utils";
+import { useOnPlay } from "@/hooks/use-on-play";
 
 import { PageHeader } from "@/components/page-header";
 import { AlbumHeader } from "@/components/albums/album-header";
 import { Separator } from "@/components/ui/separator";
 import { AlbumSongCard } from "@/components/albums/album-song-card";
-import { AlbumPlayerContent } from "@/components/albums/album-player-content";
+import { AlbumPlayer } from "@/components/albums/album-player";
+import { usePlayer } from "@/hooks/use-player-store";
 
 interface AlbumDetailsProps {
   album: AlbumWithProfileWithSongs;
@@ -18,6 +20,12 @@ interface AlbumDetailsProps {
 }
 
 export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
+  const { activateId } = usePlayer();
+  const onPlay = useOnPlay(album.songs);
+
+  const isSongActive =
+    activateId && album.songs.some((song) => song.id === activateId);
+
   return (
     <>
       <PageHeader title={album?.title} icon={Album} />
@@ -43,15 +51,21 @@ export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
                 {formatPlural(album?.songs?.length, "song", "songs")}
               </p>
               {album?.songs?.map((song) => (
-                <AlbumSongCard key={song.id} song={song} />
+                <AlbumSongCard
+                  key={song.id}
+                  song={song}
+                  onClick={(id) => onPlay(id)}
+                />
               ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full bg-slate-700 rounded-b-lg p-2">
-        <AlbumPlayerContent songUrl="" key="" />
-      </div>
+      {isSongActive && (
+        <div className="w-full bg-slate-700 rounded-b-lg p-2">
+          <AlbumPlayer />
+        </div>
+      )}
     </>
   );
 };

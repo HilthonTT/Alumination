@@ -1,5 +1,4 @@
 import { Navbar } from "@/components/navbar";
-import { NavigationArrows } from "@/components/navigation-arrow";
 
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/prismadb";

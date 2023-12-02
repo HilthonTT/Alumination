@@ -1,8 +1,8 @@
-import { Song } from "@prisma/client";
+import { AlbumSong, Song } from "@prisma/client";
 
 import { supabase } from "@/lib/supabase";
 
-export const useLoadSongUrl = (song: Song) => {
+export const useLoadSongUrl = (song: Song | AlbumSong) => {
   if (!song) {
     return "";
   }

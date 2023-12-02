@@ -5,16 +5,21 @@ import { PauseCircle, PlayCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 import { AlbumSong } from "@prisma/client";
+import { usePlayer } from "@/hooks/use-player-store";
 
 interface AlbumSongCardProps {
   song: AlbumSong;
+  onClick: (id: string) => void;
 }
 
-export const AlbumSongCard = ({ song }: AlbumSongCardProps) => {
-  const Icon = false ? PauseCircle : PlayCircle;
+export const AlbumSongCard = ({ song, onClick }: AlbumSongCardProps) => {
+  const { activateId } = usePlayer();
+  const isPlaying = activateId === song?.id;
+
+  const Icon = isPlaying ? PauseCircle : PlayCircle;
 
   return (
-    <div className="bg-slate-700 rounded-full flex items-center p-1 w-full">
+    <div className="bg-slate-700 rounded-full flex items-center p-1 w-full mb-2">
       <div className="relative w-12 h-12">
         <Image
           fill
@@ -31,7 +36,9 @@ export const AlbumSongCard = ({ song }: AlbumSongCardProps) => {
         </p>
       </div>
       <div className="ml-auto mr-4 flex items-center">
-        <button className="hover:opacity-75 transition">
+        <button
+          onClick={() => onClick(song.id)}
+          className="hover:opacity-75 transition">
           <Icon className="h-8 w-8" />
         </button>
       </div>

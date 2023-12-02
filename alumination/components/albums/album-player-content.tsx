@@ -3,6 +3,8 @@
 // @ts-ignore
 import useSound from "use-sound";
 
+import Image from "next/image";
+import { AlbumSong } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,14 +17,18 @@ import {
 } from "lucide-react";
 import { VolumeSlider } from "@/components/volume-slider";
 import { usePlayer } from "@/hooks/use-player-store";
-import Image from "next/image";
 
 interface PlayerContentProps {
   key: string;
+  song: AlbumSong;
   songUrl: string;
 }
 
-export const AlbumPlayerContent = ({ key, songUrl }: PlayerContentProps) => {
+export const AlbumPlayerContent = ({
+  key,
+  songUrl,
+  song,
+}: PlayerContentProps) => {
   const { ids, activateId, setId } = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -101,13 +107,12 @@ export const AlbumPlayerContent = ({ key, songUrl }: PlayerContentProps) => {
         <div className="relative h-10 w-10">
           <Image
             fill
-            alt=""
-            src={
-              "https://res.cloudinary.com/dekf6vije/image/upload/v1701518773/qod3yfbdjzemhedm4s0o.png"
-            }
+            alt="Album Song Thumbnail"
+            src={song?.imageUrl}
+            className="object-cover"
           />
         </div>
-        <p className="text-sm ml-2">Jumper</p>
+        <p className="text-sm ml-2">{song?.title}</p>
       </div>
       <div className="flex md:hidden col-auto w-full  justify-end items-center">
         <div
