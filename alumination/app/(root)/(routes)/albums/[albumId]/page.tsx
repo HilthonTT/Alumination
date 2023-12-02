@@ -6,6 +6,7 @@ import { db } from "@/lib/prismadb";
 import { Container } from "@/components/container";
 import { AlbumForm } from "@/components/albums/album-form";
 import { AlbumDetails } from "@/components/albums/album-details";
+import { AlbumList } from "@/components/album-list";
 
 interface AlbumIdPageProps {
   params: {
@@ -30,15 +31,17 @@ const AlbumIdPage = async ({ params }: AlbumIdPageProps) => {
     );
   }
 
-  const album = await db.album.findUnique({
+  const albums = await db.album.findMany({
     where: {
-      id: params?.albumId,
+      profileId: profile?.id,
     },
     include: {
       profile: true,
       songs: true,
     },
   });
+
+  const album = albums.find((a) => a.id === params.albumId);
 
   if (!album) {
     return redirect("/albums");
@@ -49,6 +52,7 @@ const AlbumIdPage = async ({ params }: AlbumIdPageProps) => {
   return (
     <Container>
       <AlbumDetails album={album} isOwner={isOwner} />
+      <AlbumList title="Related albums" data={albums} />
     </Container>
   );
 };

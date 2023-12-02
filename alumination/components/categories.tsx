@@ -46,10 +46,12 @@ export const Categories = ({ data }: CategoriesProps) => {
             key={item.id}
             onClick={() => onClick(item.id)}
             className={cn(
-              ` p-2 rounded-lg hover:bg-slate-500 transition cursor-pointer px-4`,
+              ` p-2 rounded-lg hover:bg-slate-500 transition cursor-pointer px-4 flex-grow`,
               categoryId === item.id ? "bg-slate-500" : "bg-slate-700"
             )}>
-            <span className="truncate text-sm text-white">{item.name}</span>
+            <span className="truncate text-sm text-center text-white">
+              {item.name}
+            </span>
           </div>
         ))}
       </div>

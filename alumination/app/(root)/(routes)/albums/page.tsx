@@ -1,9 +1,19 @@
 import { Albums } from "@/components/albums/albums";
 import { Container } from "@/components/container";
+
 import { db } from "@/lib/prismadb";
 
-const AlbumsPage = async () => {
+interface AlbumsPage {
+  searchParams: {
+    categoryId: string;
+  };
+}
+
+const AlbumsPage = async ({ searchParams }: AlbumsPage) => {
   const albums = await db.album.findMany({
+    where: {
+      categoryId: searchParams.categoryId,
+    },
     include: {
       profile: true,
       songs: true,
@@ -13,9 +23,11 @@ const AlbumsPage = async () => {
     },
   });
 
+  const categories = await db.category.findMany();
+
   return (
     <Container className="max-w-5xl h-full">
-      <Albums albums={albums} />
+      <Albums albums={albums} categories={categories} />
     </Container>
   );
 };

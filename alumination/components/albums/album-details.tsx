@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Album } from "lucide-react";
 
 import { AlbumWithProfileWithSongs } from "@/types";
-import { formatPlural } from "@/lib/utils";
+import { cn, formatPlural } from "@/lib/utils";
 import { useOnPlay } from "@/hooks/use-on-play";
 
 import { PageHeader } from "@/components/page-header";
@@ -29,8 +29,11 @@ export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
   return (
     <>
       <PageHeader title={album?.title} icon={Album} />
-
-      <div className="bg-slate-800 rounded-xl rounded-b-none p-3">
+      <div
+        className={cn(
+          "bg-slate-800 rounded-xl p-3",
+          isSongActive && "rounded-b-none"
+        )}>
         <AlbumHeader isOwner={isOwner} data={album} />
         <div className="flex">
           <div className="relative h-52 w-52">
