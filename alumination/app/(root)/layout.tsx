@@ -1,4 +1,4 @@
-import { MobileToggle } from "@/components/navigation/mobile-sidebar";
+import { MobileToggle } from "@/components/navigation/sidebar";
 import { Navbar } from "@/components/navigation/navbar";
 
 import { initialProfile } from "@/lib/initial-profile";
@@ -11,24 +11,18 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const profile = await initialProfile();
 
-  const songs = await db.song.findMany();
-  const profiles = await db.profile.findMany();
-  const albums = await db.album.findMany();
-
-  const notifications = await db.notification.findMany({
-    where: {
-      receiverId: profile?.id,
-    },
-  });
-
-  const following = await db.following.findMany({
-    where: {
-      followerId: profile?.id,
-    },
-    include: {
-      followee: true,
-    },
-  });
+  const [songs, profiles, albums, notifications, following] = await Promise.all(
+    [
+      db.song.findMany(),
+      db.profile.findMany(),
+      db.album.findMany(),
+      db.notification.findMany({ where: { receiverId: profile?.id } }),
+      db.following.findMany({
+        where: { followerId: profile?.id },
+        include: { followee: true },
+      }),
+    ]
+  );
 
   const followingArtists = following.map((follow) => follow.followee);
   const createdSongs = songs.filter((s) => s.profileId === profile?.id);
@@ -46,6 +40,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         <MobileToggle
           followingArtists={followingArtists}
           createdSongs={createdSongs}
+          profile={profile}
         />
       </div>
     </div>
