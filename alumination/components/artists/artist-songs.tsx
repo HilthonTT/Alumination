@@ -2,8 +2,8 @@
 
 import { ProfileWithSongsWithProfile } from "@/types";
 import { SongCard } from "@/components/song-card";
-import { ArtistSearchInput } from "@/components/artists/artist-songs-search-input";
 import { NoResults } from "@/components/no-results";
+import { SearchInput } from "@/components/search-input";
 
 interface ArtistSongsProps {
   profile: ProfileWithSongsWithProfile;
@@ -12,7 +12,7 @@ interface ArtistSongsProps {
 export const ArtistSongs = ({ profile }: ArtistSongsProps) => {
   return (
     <div className="w-full">
-      <ArtistSearchInput profile={profile} />
+      <SearchInput parameter="artistSongName" />
       {profile?.songs?.length === 0 && (
         <NoResults src="/empty-box.png" title="No songs have been found." />
       )}

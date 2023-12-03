@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Album as AlbumIcon, Bell, BoomBox, Focus, Music } from "lucide-react";
+import {
+  Album as AlbumIcon,
+  Bell,
+  BoomBox,
+  Focus,
+  Music,
+  UserSquare,
+} from "lucide-react";
 import { Profile, Song, Notification, Album } from "@prisma/client";
 
 import { ModeToggle } from "@/components/mode-toggle";
@@ -33,6 +40,13 @@ export const Navbar = ({
       label: "Albums",
       href: "/albums",
       icon: AlbumIcon,
+      children: null,
+      loggedInOnly: false,
+    },
+    {
+      label: "Artists",
+      href: "/artists",
+      icon: UserSquare,
       children: null,
       loggedInOnly: false,
     },

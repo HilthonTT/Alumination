@@ -6,6 +6,7 @@ import { db } from "@/lib/prismadb";
 interface AlbumsPage {
   searchParams: {
     categoryId: string;
+    albumTitle: string;
   };
 }
 
@@ -13,6 +14,9 @@ const AlbumsPage = async ({ searchParams }: AlbumsPage) => {
   const albums = await db.album.findMany({
     where: {
       categoryId: searchParams.categoryId,
+      title: {
+        contains: searchParams.albumTitle,
+      },
     },
     include: {
       profile: true,

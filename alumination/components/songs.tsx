@@ -11,6 +11,7 @@ import { NoResults } from "@/components/no-results";
 import { Categories } from "@/components/categories";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/search-input";
 
 interface SongsProps {
   data: SongWithProfile[];
@@ -25,6 +26,7 @@ export const Songs = ({ data, categories }: SongsProps) => {
     <>
       <PageHeader title="Songs" icon={Music} />
       <Categories data={categories} />
+      <SearchInput parameter="songTitle" />
       {isSignedIn && (
         <div className="w-full flex items-center justify-end mb-1">
           <Button onClick={() => router.push("/songs/create")} variant="ghost">

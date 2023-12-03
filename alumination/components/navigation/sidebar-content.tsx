@@ -9,6 +9,8 @@ import {
   Album,
   Headphones,
   UserSquare,
+  Upload,
+  UploadCloud,
 } from "lucide-react";
 import { Profile, Song } from "@prisma/client";
 
@@ -31,7 +33,30 @@ export const SidebarContent = ({
   createdSongs,
   onClose,
 }: SidebarContentProps) => {
-  const routes = [
+  const mainRoutes = [
+    {
+      label: "Home",
+      href: "/",
+      icon: Home,
+    },
+    {
+      label: "My channel",
+      href: `/artists/${profile?.id}`,
+      icon: SquareUserRound,
+    },
+    {
+      label: "Upload a song",
+      href: "/songs/create",
+      icon: Upload,
+    },
+    {
+      label: "Make an album",
+      href: "/albums/create",
+      icon: UploadCloud,
+    },
+  ];
+
+  const exploreRoutes = [
     {
       label: "Songs",
       href: "/",
@@ -58,13 +83,9 @@ export const SidebarContent = ({
     <ScrollArea className="w-full h-full rounded-md">
       <div className="mt-10 p-4">
         <div className="relative">
-          <SidebarLink label="Home" icon={Home} href="/" onClose={onClose} />
-          <SidebarLink
-            label="Your channel"
-            icon={SquareUserRound}
-            href={`/artists/${profile?.id}`}
-            onClose={onClose}
-          />
+          {mainRoutes?.map((route) => (
+            <SidebarLink key={route.href} {...route} onClose={onClose} />
+          ))}
         </div>
         <Separator className="border border-b-0 border-zinc-500 items-center my-3" />
         <div className="relative">
@@ -92,7 +113,7 @@ export const SidebarContent = ({
             Explore <Search className="h-5 w-5" />
           </h2>
 
-          {routes.map((route) => (
+          {exploreRoutes.map((route) => (
             <SidebarLink key={route.href} {...route} onClose={onClose} />
           ))}
         </div>

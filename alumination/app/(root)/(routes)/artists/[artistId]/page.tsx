@@ -25,7 +25,7 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
       songs: {
         where: {
           title: {
-            search: searchParams.artistSongName,
+            contains: searchParams.artistSongName,
           },
         },
         orderBy: {

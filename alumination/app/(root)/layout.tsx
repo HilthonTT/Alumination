@@ -36,7 +36,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         albums={albums}
       />
       <main className="pt-16 h-full">{children}</main>
-      <div className="absolute top-16 left-4">
+      <div className="fixed top-16 left-4">
         <MobileToggle
           followingArtists={followingArtists}
           createdSongs={createdSongs}

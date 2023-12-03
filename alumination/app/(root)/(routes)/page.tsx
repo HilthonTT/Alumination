@@ -5,6 +5,7 @@ import { Container } from "@/components/container";
 interface HomePageProps {
   searchParams: {
     categoryId: string;
+    songTitle: string;
   };
 }
 
@@ -12,6 +13,9 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
   const songs = await db.song.findMany({
     where: {
       categoryId: searchParams.categoryId,
+      title: {
+        contains: searchParams.songTitle,
+      },
     },
     include: {
       profile: true,
