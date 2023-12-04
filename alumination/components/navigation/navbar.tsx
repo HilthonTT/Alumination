@@ -14,11 +14,11 @@ import {
 import { Profile, Song, Notification, Album } from "@prisma/client";
 
 import { ModeToggle } from "@/components/mode-toggle";
-import { NavbarSearch } from "@/components/navbar-search";
+import { NavbarSearch } from "@/components/navigation/navbar-search";
 import { ActionTooltip } from "@/components/action-tooltip";
 import { Button } from "@/components/ui/button";
-import { PingNotification } from "@/components/ping-notification";
-import { LinkElement } from "@/components/link-element";
+import { PingNotification } from "@/components/navigation/ping-notification";
+import { LinkElement } from "@/components/navigation/link-element";
 
 interface NavbarProps {
   profiles: Profile[];

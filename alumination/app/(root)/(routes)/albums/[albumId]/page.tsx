@@ -6,7 +6,7 @@ import { db } from "@/lib/prismadb";
 import { Container } from "@/components/container";
 import { AlbumForm } from "@/components/albums/album-form";
 import { AlbumDetails } from "@/components/albums/album-details";
-import { AlbumList } from "@/components/album-list";
+import { AlbumList } from "@/components/albums/album-list";
 
 interface AlbumIdPageProps {
   params: {

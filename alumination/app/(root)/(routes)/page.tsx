@@ -1,5 +1,5 @@
 import { db } from "@/lib/prismadb";
-import { Songs } from "@/components/songs";
+import { Songs } from "@/components/songs/songs";
 import { Container } from "@/components/container";
 
 interface HomePageProps {

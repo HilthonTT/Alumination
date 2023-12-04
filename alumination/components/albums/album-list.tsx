@@ -2,7 +2,7 @@
 
 import { AlbumWithProfileWithSongs } from "@/types";
 import { NoResults } from "@/components/no-results";
-import { AlbumCard } from "@/components/album-card";
+import { AlbumCard } from "@/components/albums/album-card";
 
 interface AlbumListProps {
   title: string;

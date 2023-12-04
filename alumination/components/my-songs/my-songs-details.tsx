@@ -5,7 +5,7 @@ import { Music, Upload } from "lucide-react";
 
 import { SongWithProfile } from "@/types";
 import { Button } from "@/components/ui/button";
-import { SongCard } from "@/components/song-card";
+import { SongCard } from "@/components/songs/song-card";
 import { NoResults } from "@/components/no-results";
 import { PageHeader } from "@/components/page-header";
 

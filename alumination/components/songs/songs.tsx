@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 
 import { SongWithProfile } from "@/types";
-import { SongCard } from "@/components/song-card";
+import { SongCard } from "@/components/songs/song-card";
 import { NoResults } from "@/components/no-results";
 import { Categories } from "@/components/categories";
 import { PageHeader } from "@/components/page-header";

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProfileWithSongsWithProfile } from "@/types";
-import { SongCard } from "@/components/song-card";
+import { SongCard } from "@/components/songs/song-card";
 import { NoResults } from "@/components/no-results";
 import { SearchInput } from "@/components/search-input";
 

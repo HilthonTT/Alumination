@@ -4,7 +4,7 @@ import { SongDetails } from "@/components/songs/song-details";
 import { SongFormCreate } from "@/components/songs/song-form-create";
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
-import { SongList } from "@/components/song-list";
+import { SongList } from "@/components/songs/song-list";
 import { Container } from "@/components/container";
 import { NoResults } from "@/components/no-results";
 import { PageHeader } from "@/components/page-header";

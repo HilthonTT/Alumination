@@ -1,7 +1,7 @@
 "use client";
 
 import { NoResults } from "@/components/no-results";
-import { SongCard } from "@/components/song-card";
+import { SongCard } from "@/components/songs/song-card";
 import { SongWithProfile } from "@/types";
 
 interface SongListProps {

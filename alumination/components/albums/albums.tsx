@@ -8,7 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { AlbumWithProfileWithSongs } from "@/types";
 import { PageHeader } from "@/components/page-header";
 import { NoResults } from "@/components/no-results";
-import { AlbumCard } from "@/components/album-card";
+import { AlbumCard } from "@/components/albums/album-card";
 import { Categories } from "@/components/categories";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/search-input";
