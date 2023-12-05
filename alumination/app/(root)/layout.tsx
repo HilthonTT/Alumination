@@ -1,4 +1,4 @@
-import { MobileToggle } from "@/components/navigation/sidebar";
+import { SidebarToggle } from "@/components/navigation/sidebar-toggle";
 import { Navbar } from "@/components/navigation/navbar";
 
 import { initialProfile } from "@/lib/initial-profile";
@@ -37,7 +37,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
       />
       <main className="pt-16 h-full">{children}</main>
       <div className="fixed top-16 left-4">
-        <MobileToggle
+        <SidebarToggle
           followingArtists={followingArtists}
           createdSongs={createdSongs}
           profile={profile}

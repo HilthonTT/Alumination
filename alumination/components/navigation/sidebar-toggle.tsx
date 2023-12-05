@@ -14,7 +14,7 @@ interface MobileToggleProps {
   profile: Profile;
 }
 
-export const MobileToggle = ({
+export const SidebarToggle = ({
   followingArtists,
   createdSongs,
   profile,

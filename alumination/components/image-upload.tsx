@@ -8,12 +8,14 @@ interface ImageUploadProps {
   value: string;
   onChange: (src: string) => void;
   disabled?: boolean;
+  isBanner?: boolean;
 }
 
 export const ImageUpload = ({
   value,
   onChange,
   disabled,
+  isBanner = false,
 }: ImageUploadProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -33,18 +35,36 @@ export const ImageUpload = ({
           maxFiles: 1,
         }}
         uploadPreset="w78lhmkj">
-        <div
-          className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition 
+        <>
+          {!isBanner && (
+            <div
+              className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition 
                 flex flex-col space-y-2 items-center justify-center">
-          <div className="relative h-40 w-40">
-            <Image
-              fill
-              alt="Upload"
-              src={value || "/placeholder.svg"}
-              className="rounded-lg object-cover"
-            />
-          </div>
-        </div>
+              <div className="relative h-40 w-40">
+                <Image
+                  fill
+                  alt="Upload"
+                  src={value || "/placeholder.svg"}
+                  className="rounded-lg object-cover"
+                />
+              </div>
+            </div>
+          )}
+          {isBanner && (
+            <div
+              className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition 
+              flex flex-col space-y-2 items-center justify-center">
+              <div className="relative h-20 w-[550px]">
+                <Image
+                  fill
+                  alt="Upload"
+                  src={value || "/banner-placeholder.jpg"}
+                  className="rounded-lg object-cover"
+                />
+              </div>
+            </div>
+          )}
+        </>
       </CldUploadButton>
     </div>
   );

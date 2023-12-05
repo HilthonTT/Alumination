@@ -150,7 +150,11 @@ model Band {
   id String @id @default(uuid())
 
   name String
-  imageUrl String @db.Text
+  description String
+
+  iconImageUrl String @db.Text
+  bannerImageUrl String @db.Text
+
   inviteCode String @unique
 
   profileId String
