@@ -1,8 +1,11 @@
 import { redirectToSignIn } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
+import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/prismadb";
 import { BandForm } from "@/components/bands/band-form";
 import { Container } from "@/components/container";
-import { currentProfile } from "@/lib/current-profile";
+import { BandDetails } from "@/components/bands/band-details";
 
 interface BandIdPageProps {
   params: {
@@ -25,7 +28,28 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
     );
   }
 
-  return <div></div>;
+  const band = await db.band.findUnique({
+    where: {
+      id: params.bandId,
+    },
+    include: {
+      members: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+
+  if (!band) {
+    return redirect("/bands");
+  }
+
+  return (
+    <Container>
+      <BandDetails band={band} />
+    </Container>
+  );
 };
 
 export default BandIdPage;

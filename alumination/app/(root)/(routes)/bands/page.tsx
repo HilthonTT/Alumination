@@ -2,8 +2,20 @@ import { Bands } from "@/components/bands/bands";
 import { Container } from "@/components/container";
 import { db } from "@/lib/prismadb";
 
-const BandPage = async () => {
-  const bands = await db.band.findMany();
+interface BandPageProps {
+  searchParams: {
+    bandName: string;
+  };
+}
+
+const BandPage = async ({ searchParams }: BandPageProps) => {
+  const bands = await db.band.findMany({
+    where: {
+      name: {
+        contains: searchParams?.bandName,
+      },
+    },
+  });
 
   return (
     <Container className="max-w-5xl h-full">

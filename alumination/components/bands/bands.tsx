@@ -6,6 +6,7 @@ import { Headphones } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { NoResults } from "@/components/no-results";
 import { BandCard } from "@/components/bands/band-card";
+import { SearchInput } from "@/components/search-input";
 
 interface BandsProps {
   bands: Band[];
@@ -15,6 +16,7 @@ export const Bands = ({ bands }: BandsProps) => {
   return (
     <>
       <PageHeader title="Bands" icon={Headphones} />
+      <SearchInput parameter="bandName" />
 
       {bands.length === 0 && (
         <NoResults src="/empty-box.png" title="No bands have been found." />

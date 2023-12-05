@@ -22,7 +22,7 @@ export const PageHeader = ({ title, icon: Icon }: PageHeader) => {
       <h1 className="text-2xl font-semibold mb-5 flex items-center">
         <div className="flex items-center justify-center space-x-3">
           {Icon && <Icon className="h-8 w-8" />}
-          <span>{title}</span>
+          <span className="break-words">{title}</span>
         </div>
       </h1>
       <button

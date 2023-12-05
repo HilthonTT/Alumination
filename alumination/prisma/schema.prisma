@@ -166,6 +166,7 @@ model Band {
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
+  @@fulltext([name])
 }
 
 model Member {
