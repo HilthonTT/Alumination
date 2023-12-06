@@ -35,7 +35,7 @@ export async function PATCH(req: Request, { params }: AlbumIdProps) {
       await RequestValidator.parseAsync(body);
 
     if (!profile || !profile?.id) {
-      return new NextResponse("Not authorized", { status: 401 });
+      return new NextResponse("Not authorized", { status: 403 });
     }
 
     const identifier = `${req.url}-${profile?.id}`;

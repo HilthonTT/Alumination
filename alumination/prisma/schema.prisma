@@ -161,12 +161,30 @@ model Band {
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   members Member[]
+  songs BandSong[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
   @@fulltext([name])
+}
+
+model BandSong {
+  id String @id @default(uuid())
+
+  title String
+  description String
+  songPath String
+  imageUrl String @db.Text
+
+  bandId String
+  band Band @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([bandId])
 }
 
 model Member {

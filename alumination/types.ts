@@ -34,6 +34,10 @@ export type MemberWithProfile = Member & {
   profile: Profile;
 };
 
-export type BandWithMembers = Band & {
+export type BandWithMembersWithProfiles = Band & {
   members: MemberWithProfile[];
+};
+
+export type BandWithMembers = Band & {
+  members: Member[];
 };

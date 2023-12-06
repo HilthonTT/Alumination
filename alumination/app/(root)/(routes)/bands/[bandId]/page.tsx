@@ -14,7 +14,7 @@ interface BandIdPageProps {
 }
 
 const BandIdPage = async ({ params }: BandIdPageProps) => {
-  const profile = currentProfile();
+  const profile = await currentProfile();
 
   if (params.bandId === "create") {
     if (!profile) {
@@ -47,7 +47,7 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
 
   return (
     <Container>
-      <BandDetails band={band} />
+      <BandDetails band={band} profile={profile} />
     </Container>
   );
 };

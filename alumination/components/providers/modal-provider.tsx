@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { DeleteSongModal } from "@/components/modals/delete-song-modal";
 import { FollowModal } from "@/components/modals/follow-modal";
 import { DeleteAlbumModal } from "@/components/modals/delete-album-modal";
+import { DeleteBandModal } from "@/components/modals/delete-band-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -22,6 +23,7 @@ export const ModalProvider = () => {
       <DeleteSongModal />
       <FollowModal />
       <DeleteAlbumModal />
+      <DeleteBandModal />
     </>
   );
 };

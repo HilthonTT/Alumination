@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const RequestValidator = z.object({
   name: z.string().min(1, {
@@ -26,7 +27,14 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (!profile) {
-      return new NextResponse("Not authorized", { status: 401 });
+      return new NextResponse("Not authorized", { status: 403 });
+    }
+
+    const identifier = `${req.url}-${profile?.id}`;
+    const { success } = await rateLimit(identifier);
+
+    if (!success) {
+      return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
     const { name, description, iconImageUrl, bannerImageUrl } =

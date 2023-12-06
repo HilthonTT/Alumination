@@ -15,7 +15,7 @@ export async function GET(req: Request, { params }: SongIdProps) {
     const profile = await currentProfile();
 
     if (!profile) {
-      return new NextResponse("Not authorized", { status: 401 });
+      return new NextResponse("Not authorized", { status: 403 });
     }
 
     const identifier = `${req.url}-${profile?.id}`;

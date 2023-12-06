@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       await RequestValidator.parseAsync(body);
 
     if (!profile || !profile?.id) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 403 });
     }
 
     const identifier = `${req.url}-${profile?.id}`;
