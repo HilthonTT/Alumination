@@ -30,7 +30,7 @@ export const LinkElement = ({
         <div className="ml-5 mr-0">
           <Link href={href} className="relative">
             <div className="flex items-center space-x-2 hover:opacity-75 transition">
-              {Icon && <Icon className="h-4 w-4" />}
+              {Icon && <Icon />}
               <span className="text-white relative">{label}</span>
               {children}
             </div>

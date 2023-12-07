@@ -34,6 +34,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         profiles={profiles}
         notifications={notifications}
         albums={albums}
+        profile={profile}
       />
       <main className="pt-16 h-full">{children}</main>
       <div className="fixed top-16 left-4">
