@@ -6,6 +6,7 @@ import { db } from "@/lib/prismadb";
 import { BandForm } from "@/components/bands/band-form";
 import { Container } from "@/components/container";
 import { BandDetails } from "@/components/bands/band-details";
+import { BandList } from "@/components/bands/band-list";
 
 interface BandIdPageProps {
   params: {
@@ -38,6 +39,7 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
           profile: true,
         },
       },
+      songs: true,
     },
   });
 
@@ -45,9 +47,14 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
     return redirect("/bands");
   }
 
+  const bands = await db.band.findMany({
+    take: 3,
+  });
+
   return (
     <Container>
       <BandDetails band={band} profile={profile} />
+      <BandList data={bands} title="Other bands" />
     </Container>
   );
 };

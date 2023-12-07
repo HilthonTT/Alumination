@@ -206,7 +206,7 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
                   <Textarea
                     disabled={isLoading}
                     className="focus-visible:ring-0 focus-visible:ring-offset-0"
-                    placeholder="Catchy tunen with upbeat rhythm"
+                    placeholder="Catchy tunes with upbeat rhythm"
                     {...field}
                   />
                 </FormControl>

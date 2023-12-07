@@ -24,7 +24,7 @@ interface PlayerContentProps {
   songUrl: string;
 }
 
-export const AlbumPlayerContent = ({
+export const PlayerContentGlobal = ({
   key,
   songUrl,
   song,
@@ -102,7 +102,7 @@ export const AlbumPlayerContent = ({
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 h-full">
+    <div className="grid grid-cols-2 md:grid-cols-3 h-full p-2">
       <div className="flex items-center">
         <div className="relative h-10 w-10">
           <Image

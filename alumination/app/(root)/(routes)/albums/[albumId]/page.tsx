@@ -39,6 +39,7 @@ const AlbumIdPage = async ({ params }: AlbumIdPageProps) => {
       profile: true,
       songs: true,
     },
+    take: 3,
   });
 
   const album = albums.find((a) => a.id === params.albumId);

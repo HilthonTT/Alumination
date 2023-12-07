@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { db } from "@/lib/prismadb";
-import { rateLimit } from "@/lib/rate-limit";
 import { currentProfile } from "@/lib/current-profile";
+import { rateLimit } from "@/lib/rate-limit";
+import { db } from "@/lib/prismadb";
 
 interface SongIdProps {
   params: {
@@ -25,7 +25,7 @@ export async function GET(req: Request, { params }: SongIdProps) {
       return new NextResponse("Rate limit is exceeded", { status: 429 });
     }
 
-    const song = await db.albumSong.findUnique({
+    const song = await db.bandSong.findUnique({
       where: {
         id: params.songId,
       },
@@ -37,7 +37,7 @@ export async function GET(req: Request, { params }: SongIdProps) {
 
     return NextResponse.json(song);
   } catch (error) {
-    console.log("ALBUMS_SONGS_GET_ID", error);
+    console.log("BANDS_SONGS_GET_ID", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

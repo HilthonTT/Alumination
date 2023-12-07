@@ -6,20 +6,25 @@ import { Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Edit, MoreVertical, Trash, Upload } from "lucide-react";
 
-import { BandWithMembersWithProfiles } from "@/types";
+import { BandWithMembersWithProfilesWithSongs } from "@/types";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
 import { BandMember } from "@/components/bands/band-member";
 import { useModal } from "@/hooks/use-modal-store";
+import { useOnPlay } from "@/hooks/use-on-play";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BandSongCard } from "@/components/bands/band-song-card";
+import { BandPlayer } from "@/components/bands/band-player";
+import { Separator } from "@/components/ui/separator";
+import { usePlayer } from "@/hooks/use-player-store";
 
 interface BandDetailsProps {
-  band: BandWithMembersWithProfiles;
+  band: BandWithMembersWithProfilesWithSongs;
   profile: Profile | null;
 }
 
@@ -28,6 +33,8 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
 
   const { onOpen } = useModal();
   const router = useRouter();
+  const { activateId } = usePlayer();
+  const onPlay = useOnPlay(band.songs);
 
   const isOwner = band.profileId === profile?.id;
   const isMember =
@@ -117,6 +124,21 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
               </DropdownMenu>
             )}
           </div>
+        </div>
+        <div className="mt-3 p-2">
+          {band.songs.map((song) => (
+            <BandSongCard
+              key={song.id}
+              song={song}
+              onClick={() => onPlay(song.id)}
+            />
+          ))}
+        </div>
+        <div className="mt-4 flex flex-col items-center justify-center">
+          {activateId && (
+            <Separator className="border-2 border-white w-[85%] mb-4" />
+          )}
+          <BandPlayer />
         </div>
       </div>
     </>

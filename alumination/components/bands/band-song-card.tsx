@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { PauseCircle, PlayCircle } from "lucide-react";
+import { BandSong } from "@prisma/client";
 import { formatDistanceToNow } from "date-fns";
+import { PauseCircle, PlayCircle } from "lucide-react";
 
-import { AlbumSong } from "@prisma/client";
 import { usePlayer } from "@/hooks/use-player-store";
 
-interface AlbumSongCardProps {
-  song: AlbumSong;
+interface BandSongCardProps {
+  song: BandSong;
   onClick: (id: string) => void;
 }
 
-export const AlbumSongCard = ({ song, onClick }: AlbumSongCardProps) => {
+export const BandSongCard = ({ song, onClick }: BandSongCardProps) => {
   const { activateId, setId } = usePlayer();
   const isPlaying = activateId === song?.id;
 

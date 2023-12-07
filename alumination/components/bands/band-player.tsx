@@ -3,12 +3,12 @@
 import { useLoadSongUrl } from "@/hooks/use-load-song-url";
 import { usePlayer } from "@/hooks/use-player-store";
 
-import { useGetAlbumSongId } from "@/hooks/use-get-song-album-id";
 import { PlayerContentGlobal } from "@/components/player-content-global";
+import { useGetBandSongId } from "@/hooks/use-get-song-band-id";
 
-export const AlbumPlayer = () => {
+export const BandPlayer = () => {
   const { activateId } = usePlayer();
-  const { song } = useGetAlbumSongId(activateId);
+  const { song } = useGetBandSongId(activateId);
 
   const songUrl = useLoadSongUrl(song!);
 

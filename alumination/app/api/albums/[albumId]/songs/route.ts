@@ -16,9 +16,6 @@ const RequestValidator = z.object({
   imageUrl: z.string().min(1, {
     message: "Album image is required.",
   }),
-  categoryId: z.string().min(1, {
-    message: "The category is required.",
-  }),
   songPath: z.string().min(1, {
     message: "Song Path is required.",
   }),
