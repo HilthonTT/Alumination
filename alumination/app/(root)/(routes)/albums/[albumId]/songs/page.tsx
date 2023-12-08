@@ -45,7 +45,7 @@ const AlbumIdSongsPage = async ({
 
   return (
     <Container>
-      <AlbumSongDetails songs={album.songs} />
+      <AlbumSongDetails album={album} songs={album.songs} />
     </Container>
   );
 };

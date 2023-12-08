@@ -1,6 +1,6 @@
 "use client";
 
-import { AlbumSong } from "@prisma/client";
+import { Album, AlbumSong } from "@prisma/client";
 import { Album as AlbumIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -12,9 +12,10 @@ import { NoResults } from "@/components/no-results";
 
 interface AlbumSongDetailsProps {
   songs: AlbumSong[];
+  album: Album;
 }
 
-export const AlbumSongDetails = ({ songs }: AlbumSongDetailsProps) => {
+export const AlbumSongDetails = ({ songs, album }: AlbumSongDetailsProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
@@ -32,7 +33,7 @@ export const AlbumSongDetails = ({ songs }: AlbumSongDetailsProps) => {
 
   return (
     <>
-      <PageHeader title="My albums's songs" icon={AlbumIcon} />
+      <PageHeader title={album?.title} icon={AlbumIcon} />
       <SearchInput parameter="albumSongName" />
       {songs?.length === 0 && (
         <NoResults

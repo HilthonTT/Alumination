@@ -10,6 +10,7 @@ import {
   Focus,
   Music,
   Music2,
+  Music3,
   Music4,
   UserSquare,
 } from "lucide-react";
@@ -87,6 +88,11 @@ export const Navbar = ({
       label: "My albums",
       href: `/my-albums`,
       icon: AlbumIcon,
+    },
+    {
+      label: "My bands",
+      href: `/my-bands`,
+      icon: Music3,
     },
     {
       label: "My profile",
