@@ -11,6 +11,8 @@ interface ArtistIdPageProps {
   };
   searchParams: {
     artistSongName: string;
+    artistBandName: string;
+    artistAlbumName: string;
   };
 }
 
@@ -35,6 +37,28 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
           profile: true,
         },
       },
+    },
+  });
+
+  const albums = await db.album.findMany({
+    where: {
+      profileId: profile?.id,
+      title: {
+        contains: searchParams.artistAlbumName,
+      },
+    },
+    include: {
+      profile: true,
+      songs: true,
+    },
+  });
+
+  const bands = await db.band.findMany({
+    where: {
+      name: {
+        contains: searchParams.artistBandName,
+      },
+      profileId: profile?.id,
     },
   });
 
@@ -72,6 +96,8 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
         isFollowing={isFollowing}
         followers={artistFollowers}
         following={artistFollowing}
+        albums={albums}
+        bands={bands}
       />
     </Container>
   );

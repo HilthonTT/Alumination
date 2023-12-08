@@ -16,9 +16,10 @@ import { cn } from "@/lib/utils";
 
 interface AlbumCardProps {
   album: AlbumWithProfileWithSongs;
+  showProfile?: boolean;
 }
 
-export const AlbumCard = ({ album }: AlbumCardProps) => {
+export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
   const router = useRouter();
   const { user } = useUser();
 
@@ -55,22 +56,26 @@ export const AlbumCard = ({ album }: AlbumCardProps) => {
           alt="Album Thumbnail"
           className="object-cover rounded-lg"
         />
-        {user?.id === album?.profile?.userId && (
-          <ActionTooltip label="Settings">
-            <div
-              className={cn(
-                "absolute top-2 right-2 transition",
-                isIconHovered
-                  ? "opacity-75"
-                  : "opacity-0 group-hover:opacity-100"
-              )}
-              onMouseEnter={() => setIsIconHovered(true)}
-              onMouseLeave={() => setIsIconHovered(false)}
-              onClick={onSettingsClick}>
-              <Settings className="text-white w-6 h-6" />
-              <span className="sr-only">Open Settings</span>
-            </div>
-          </ActionTooltip>
+        {showProfile && (
+          <>
+            {user?.id === album?.profile?.userId && (
+              <ActionTooltip label="Settings">
+                <div
+                  className={cn(
+                    "absolute top-2 right-2 transition",
+                    isIconHovered
+                      ? "opacity-75"
+                      : "opacity-0 group-hover:opacity-100"
+                  )}
+                  onMouseEnter={() => setIsIconHovered(true)}
+                  onMouseLeave={() => setIsIconHovered(false)}
+                  onClick={onSettingsClick}>
+                  <Settings className="text-white w-6 h-6" />
+                  <span className="sr-only">Open Settings</span>
+                </div>
+              </ActionTooltip>
+            )}
+          </>
         )}
       </div>
       <div className="flex w-full items-center justify-center gap-x-2 mt-2">

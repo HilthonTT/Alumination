@@ -85,7 +85,7 @@ export const AlbumSongFormCreate = ({ album }: AlbumSongFormProps) => {
 
       router.refresh();
       form.reset();
-      window.location.href = "/albums";
+      window.location.href = `/albums/${album?.id}`;
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong.");
