@@ -3,8 +3,8 @@ import { z } from "zod";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
-import { AlbumIdProps } from "../route";
 import { rateLimit } from "@/lib/rate-limit";
+import { AlbumIdProps } from "../route";
 
 const RequestValidator = z.object({
   title: z.string().min(1, {

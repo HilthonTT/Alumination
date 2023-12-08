@@ -1,8 +1,13 @@
 import { create } from "zustand";
 
-import { Album, Band, Profile, Song } from "@prisma/client";
+import { Album, AlbumSong, Band, Profile, Song } from "@prisma/client";
 
-export type ModalType = "deleteSong" | "follow" | "deleteAlbum" | "deleteBand";
+export type ModalType =
+  | "deleteSong"
+  | "follow"
+  | "deleteAlbum"
+  | "deleteBand"
+  | "deleteAlbumSong";
 
 interface ModalData {
   song?: Song;
@@ -10,6 +15,7 @@ interface ModalData {
   isFollowing?: boolean;
   album?: Album;
   band?: Band;
+  albumSong?: AlbumSong;
 }
 
 interface ModalStore {
@@ -25,5 +31,5 @@ export const useModal = create<ModalStore>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data) => set({ isOpen: true, type, data }),
-  onClose: () => set({ isOpen: false, type: null }),
+  onClose: () => set({ isOpen: false, type: null, data: {} }),
 }));

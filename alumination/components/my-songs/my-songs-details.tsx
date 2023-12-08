@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { SongCard } from "@/components/songs/song-card";
 import { NoResults } from "@/components/no-results";
 import { PageHeader } from "@/components/page-header";
+import { SearchInput } from "../search-input";
 
 interface MySongsProps {
   songs: SongWithProfile[];
@@ -26,6 +27,7 @@ export const MySongsDetails = ({ songs }: MySongsProps) => {
             Upload a song
           </Button>
         </div>
+        <SearchInput parameter="mySongName" />
 
         {songs?.length === 0 && (
           <NoResults src="/empty-box.png" title="No songs have been found." />

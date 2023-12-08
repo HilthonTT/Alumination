@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { Container } from "@/components/container";
-import { AlbumSongFormCreate } from "@/components/albums/album-song-form";
+import { AlbumSongFormCreate } from "@/components/albums/album-song-form-create";
 
 interface AlbumsSongsCreatePageProps {
   params: {

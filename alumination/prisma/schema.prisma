@@ -144,6 +144,8 @@ model Album {
 
   @@index([profileId])
   @@index([categoryId])
+
+  @@fulltext([title])
 }
 
 model Band {

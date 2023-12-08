@@ -84,6 +84,11 @@ export const Navbar = ({
       icon: Music,
     },
     {
+      label: "My albums",
+      href: `/my-albums`,
+      icon: AlbumIcon,
+    },
+    {
       label: "My profile",
       href: `/artists/${profile?.id}`,
       icon: UserSquare,
@@ -122,6 +127,7 @@ export const Navbar = ({
           <DropdownMenuContent className="w-52">
             {routes.map((route) => (
               <DropdownMenuItem
+                key={route.href}
                 onClick={() => {
                   router.push(route.href);
                 }}
@@ -143,6 +149,7 @@ export const Navbar = ({
             <DropdownMenuContent className="w-52">
               {personalRoutes.map((route) => (
                 <DropdownMenuItem
+                  key={route.href}
                   onClick={() => {
                     router.push(route.href);
                   }}

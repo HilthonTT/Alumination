@@ -2,40 +2,39 @@ import { redirectToSignIn } from "@clerk/nextjs";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
-
 import { Container } from "@/components/container";
-import { MySongsDetails } from "@/components/my-songs/my-songs-details";
+import { MyAlbumsDetails } from "@/components/my-albums/my-albums-details";
 
-interface MySongsPageProps {
+interface MyAlbumsPageProps {
   searchParams: {
-    mySongName: string;
+    myAlbumName: string;
   };
 }
 
-const MySongsPage = async ({ searchParams }: MySongsPageProps) => {
+const MyAlbumsPage = async ({ searchParams }: MyAlbumsPageProps) => {
   const profile = await currentProfile();
-
   if (!profile) {
     return redirectToSignIn();
   }
 
-  const songs = await db.song.findMany({
+  const albums = await db.album.findMany({
     where: {
-      profileId: profile.id,
+      profileId: profile?.id,
       title: {
-        contains: searchParams.mySongName,
+        contains: searchParams.myAlbumName,
       },
     },
     include: {
       profile: true,
+      songs: true,
     },
   });
 
   return (
     <Container>
-      <MySongsDetails songs={songs} />
+      <MyAlbumsDetails albums={albums} />
     </Container>
   );
 };
 
-export default MySongsPage;
+export default MyAlbumsPage;
