@@ -21,3 +21,7 @@ export const formatPlural = (
 ) => {
   return count === 1 ? `${count} ${singularText}` : `${count} ${pluralText}`;
 };
+
+export const absoluteUrl = (path: string) => {
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
+};
