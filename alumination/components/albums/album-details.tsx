@@ -31,7 +31,7 @@ export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
       <PageHeader title={album?.title} icon={Album} />
       <div
         className={cn(
-          "bg-slate-800 rounded-xl p-3",
+          "bg-zinc-200 dark:bg-slate-800 rounded-xl p-3",
           isSongActive && "rounded-b-none"
         )}>
         <AlbumHeader isOwner={isOwner} data={album} />
@@ -41,11 +41,11 @@ export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
               fill
               src={album.imageUrl}
               alt="Album Thumbnail"
-              className="object-cover"
+              className="object-cover rounded-xl"
             />
           </div>
           <div className="ml-4 mt-2 w-[80%]">
-            <p className="text-gray-400 break-words overflow-hidden">
+            <p className="text-muted-foreground break-words overflow-hidden">
               {album.description}
             </p>
             <Separator className="border border-b-1 border-white mt-1 mb-1" />
@@ -65,7 +65,7 @@ export const AlbumDetails = ({ album, isOwner }: AlbumDetailsProps) => {
         </div>
       </div>
       {isSongActive && (
-        <div className="w-full bg-slate-700 rounded-b-lg p-2">
+        <div className="w-full bg-zinc-300 dark:bg-slate-700 rounded-b-lg p-2">
           <AlbumPlayer />
         </div>
       )}

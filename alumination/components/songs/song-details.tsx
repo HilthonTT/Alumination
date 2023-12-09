@@ -22,7 +22,7 @@ export const SongDetails = ({ data, isOwner }: SongDetailsProps) => {
   }
 
   return (
-    <div className="bg-slate-800 rounded-xl p-3 flex">
+    <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl p-3 flex">
       <div className="flex flex-col w-full">
         <div className="w-full mb-4 flex justify-between">
           <SongHeader data={data} isOwner={isOwner} />

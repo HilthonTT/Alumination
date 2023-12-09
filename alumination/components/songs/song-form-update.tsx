@@ -91,7 +91,7 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
     <>
       <PageHeader title="Update your song" />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <div className="flex items-center justify-center text-center">
             <FormField
               control={form.control}

@@ -36,20 +36,26 @@ export const Categories = ({ data }: CategoriesProps) => {
         <div
           onClick={() => onClick(undefined)}
           className={cn(
-            ` p-2 rounded-lg hover:bg-slate-500 transition cursor-pointer px-4`,
-            !categoryId ? "bg-slate-500" : "bg-slate-700"
+            "flex-grow p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-500 transition cursor-pointer px-4",
+            !categoryId
+              ? "bg-slate-200 dark:bg-slate-500"
+              : "bg-slate-300 dark:bg-slate-700"
           )}>
-          <span className="truncate text-sm text-white">All</span>
+          <span className="truncate text-sm dark:text-white text-black">
+            All
+          </span>
         </div>
-        {data.map((item) => (
+        {data.map((item, index) => (
           <div
-            key={item.id}
+            key={index}
             onClick={() => onClick(item.id)}
             className={cn(
-              ` p-2 rounded-lg hover:bg-slate-500 transition cursor-pointer px-4 flex-grow`,
-              categoryId === item.id ? "bg-slate-500" : "bg-slate-700"
+              "flex-grow p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-500 transition cursor-pointer px-4",
+              item.id === categoryId
+                ? "bg-slate-200 dark:bg-slate-500"
+                : "bg-slate-300 dark:bg-slate-700"
             )}>
-            <span className="truncate text-sm text-center text-white">
+            <span className="truncate text-sm dark:text-white text-black">
               {item.name}
             </span>
           </div>

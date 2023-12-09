@@ -45,10 +45,9 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
     <div
       onClick={onClick}
       className="relative flex flex-col items-center p-4 
-                 dark:bg-slate-800 dark:hover:bg-slate-700  
-                 bg-slate-500 hover:bg-slate-600
-                 shadow-sm  shadow-slate-800
-                 transition rounded-xl cursor-pointer group">
+                dark:bg-slate-800 dark:hover:bg-slate-700 
+                bg-zinc-200 hover:bg-zinc-300
+                transition rounded-xl cursor-pointer group">
       <div className="relative h-52 w-52">
         <Image
           fill
@@ -85,9 +84,9 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
           </div>
         </ActionTooltip>
 
-        <div className="text-white truncate w-full">
+        <div className="dark:text-white text-black truncate w-full">
           <span className="font-semibold">{album.title}</span>
-          <p className="text-sm font-thin truncate">
+          <p className="text-sm text-muted-foreground truncate">
             Uploaded{" "}
             {formatDistanceToNow(new Date(album.createdAt), {
               addSuffix: true,

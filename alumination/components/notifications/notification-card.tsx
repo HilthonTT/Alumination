@@ -33,7 +33,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
     notification.type === NotificationType.ALBUM ? "Visit album" : "Visit song";
 
   return (
-    <div className="flex items-center w-full bg-slate-700 p-2 rounded-full mb-5">
+    <div className="flex items-center w-full bg-zinc-200 dark:bg-slate-700 p-2 rounded-full mb-5">
       <ActionTooltip label={capitalizedUsername}>
         <div
           onClick={() => router.push(`/artists/${notification?.issuerId}`)}

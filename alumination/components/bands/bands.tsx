@@ -1,18 +1,20 @@
 "use client";
 
-import { Band } from "@prisma/client";
+import { Band, Profile } from "@prisma/client";
 import { Headphones } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { NoResults } from "@/components/no-results";
 import { BandCard } from "@/components/bands/band-card";
 import { SearchInput } from "@/components/search-input";
+import { BandWithProfile } from "@/types";
 
 interface BandsProps {
-  bands: Band[];
+  bands: BandWithProfile[];
+  profile?: Profile | null;
 }
 
-export const Bands = ({ bands }: BandsProps) => {
+export const Bands = ({ bands, profile }: BandsProps) => {
   return (
     <>
       <PageHeader title="Bands" icon={Headphones} />
@@ -24,7 +26,7 @@ export const Bands = ({ bands }: BandsProps) => {
 
       <div className="gap-2 pb-10 grid grid-cols-4">
         {bands.map((band) => (
-          <BandCard key={band.id} band={band} />
+          <BandCard key={band.id} band={band} profile={profile} />
         ))}
       </div>
     </>

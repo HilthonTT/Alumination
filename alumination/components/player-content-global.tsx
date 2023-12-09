@@ -125,7 +125,7 @@ export const PlayerContentGlobal = ({
         <StepBack
           onClick={onPlayPrevious}
           size={30}
-          className="text-neutral-400 cursor-pointer hover:text-white transition"
+          className="text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-black dark:hover:text-white transition"
         />
         <div
           onClick={handlePlay}
@@ -135,7 +135,7 @@ export const PlayerContentGlobal = ({
         <StepForward
           onClick={onPlayNext}
           size={30}
-          className="text-neutral-400 cursor-pointer hover:text-white transition"
+          className="text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-black dark:hover:text-white transition"
         />
       </div>
       <div className="hidden md:flex w-full justify-end pr-2">

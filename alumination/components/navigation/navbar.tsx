@@ -116,12 +116,12 @@ export const Navbar = ({
   );
 
   return (
-    <div className="fixed bg-slate-800 justify-between items-center h-14 w-full mb-16 z-50 flex py-2 px-4 border-b-slate-700">
+    <div className="fixed bg-slate-200 dark:bg-slate-800 justify-between items-center h-14 w-full mb-16 z-50 flex py-2 px-4 border-b-slate-700">
       <div className="flex items-center">
         <Link href="/">
           <h1
             className="font-semibold text-2xl hidden md:flex items-center gap-x-2
-             text-white hover:opacity-75 transition">
+             text-black dark:text-white hover:opacity-75 transition">
             <BoomBox className="h-8 w-8" />
             Alumination
           </h1>
@@ -129,7 +129,9 @@ export const Navbar = ({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="text-white hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
+            <div
+              className="text-black dark:text-white font-semibold
+               hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
               <Music4 />
               Browse Music
             </div>
@@ -151,7 +153,9 @@ export const Navbar = ({
         {isSignedIn && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="text-white hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
+              <div
+                className="text-black dark:text-white font-semibold
+                 hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
                 <Music2 />
                 My Music
               </div>

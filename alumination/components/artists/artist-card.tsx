@@ -23,7 +23,10 @@ export const ArtistCard = ({ artist }: ArtistCardProps) => {
   return (
     <div
       onClick={onClick}
-      className="relative flex flex-col items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-xl transition">
+      className="relative flex flex-col items-center
+         dark:bg-slate-800 dark:hover:bg-slate-700 
+          bg-zinc-200 hover:bg-zinc-300
+         cursor-pointer rounded-xl p-1 transition">
       <div className="relative w-40 h-40">
         <Image
           fill
@@ -35,7 +38,7 @@ export const ArtistCard = ({ artist }: ArtistCardProps) => {
       <div className="mt-2 relative text-start w-full px-2">
         <p className="font-semibold break-words">{capitalizeUsername}</p>
         <p className="text-muted-foreground">
-          Joined {formatDistanceToNow(artist?.createdAt)}
+          Joined {formatDistanceToNow(artist?.createdAt)} ago
         </p>
       </div>
     </div>

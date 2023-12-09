@@ -39,7 +39,7 @@ export const ArtistDetails = ({
   return (
     <>
       <PageHeader title={pageTitle} icon={User} />
-      <div className="bg-slate-800 rounded-xl p-3">
+      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl p-3">
         <ArtistHeader
           profile={profile}
           isOwner={isOwner}
@@ -47,9 +47,9 @@ export const ArtistDetails = ({
           followers={followers}
           following={following}
         />
-        <Separator className="border border-slate-200 rounded-full my-4" />
+        <Separator className="border border-zinc-600 dark:border-slate-200 rounded-full my-4" />
         <Tabs defaultValue="songs">
-          <TabsList className="grid grid-cols-3 w-full">
+          <TabsList className="grid grid-cols-3 w-full bg-zinc-200 dark:bg-slate-800">
             <TabsTrigger value="songs" className="hover:opacity-75 transition">
               Songs
             </TabsTrigger>

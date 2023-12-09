@@ -43,9 +43,8 @@ export const SongCard = ({ song, showProfile = true }: SongCardProps) => {
     <div
       onClick={onClick}
       className="relative flex flex-col items-center p-4 
-                 dark:bg-slate-800 dark:hover:bg-slate-700  
-                 bg-slate-500 hover:bg-slate-600
-                 shadow-sm  shadow-slate-800
+                dark:bg-slate-800 dark:hover:bg-slate-700 
+                bg-zinc-200 hover:bg-zinc-300
                  transition rounded-xl cursor-pointer group">
       <div className="relative h-52 w-52">
         <Image
@@ -82,9 +81,9 @@ export const SongCard = ({ song, showProfile = true }: SongCardProps) => {
             </div>
           </ActionTooltip>
         )}
-        <div className="text-white truncate w-full">
+        <div className="dark:text-white text-black truncate w-full">
           <span className="font-semibold">{song.title}</span>
-          <p className="text-sm font-thin truncate">
+          <p className="text-sm  text-muted-foreground truncate">
             Uploaded{" "}
             {formatDistanceToNow(new Date(song.createdAt), {
               addSuffix: true,

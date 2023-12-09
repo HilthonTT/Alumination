@@ -31,7 +31,9 @@ export const LinkElement = ({
           <Link href={href} className="relative">
             <div className="flex items-center space-x-2 hover:opacity-75 transition">
               {Icon && <Icon />}
-              <span className="text-white relative">{label}</span>
+              <span className="text-black dark:text-white font-semibold relative">
+                {label}
+              </span>
               {children}
             </div>
           </Link>

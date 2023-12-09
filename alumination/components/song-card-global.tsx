@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { MoreVertical, Pencil, Trash } from "lucide-react";
-import { Album, AlbumSong, BandSong, Song } from "@prisma/client";
+import { AlbumSong, BandSong, Song } from "@prisma/client";
 
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { ActionTooltip } from "@/components/action-tooltip";
@@ -29,7 +29,7 @@ export const SongCardGlobal = ({
   const capitalizedTitle = capitalizeFirstLetter(song.title);
 
   return (
-    <div className="flex items-center w-full bg-slate-700 rounded-full mb-5">
+    <div className="flex items-center w-full bg-zinc-300 dark:bg-slate-700 rounded-full mb-5">
       <ActionTooltip label={capitalizedTitle}>
         <div
           onClick={onDetails}
@@ -44,6 +44,9 @@ export const SongCardGlobal = ({
       </ActionTooltip>
       <div className="ml-3">
         <p className="text-xl font-bold">{song.title}</p>
+        <p className="text-sm text-muted-foreground break-words">
+          {song.description}
+        </p>
       </div>
       <div className="ml-auto mr-10">
         <DropdownMenu>

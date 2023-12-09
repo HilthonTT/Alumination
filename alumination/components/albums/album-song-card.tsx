@@ -27,7 +27,7 @@ export const AlbumSongCard = ({ song, onClick }: AlbumSongCardProps) => {
   };
 
   return (
-    <div className="bg-slate-700 rounded-full flex items-center w-full mb-2">
+    <div className="bg-zinc-400/30 dark:bg-slate-700 rounded-full flex items-center w-full mb-2">
       <div className="relative w-12 h-12">
         <Image
           fill
