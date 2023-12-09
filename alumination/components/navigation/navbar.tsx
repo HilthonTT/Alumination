@@ -8,13 +8,15 @@ import {
   Bell,
   BoomBox,
   Focus,
+  Headphones,
   Music,
   Music2,
   Music3,
   Music4,
+  Settings,
   UserSquare,
 } from "lucide-react";
-import { Profile, Song, Notification, Album } from "@prisma/client";
+import { Profile, Song, Notification, Album, Band } from "@prisma/client";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import { NavbarSearch } from "@/components/navigation/navbar-search";
@@ -36,6 +38,7 @@ interface NavbarProps {
   songs: Song[];
   notifications: Notification[];
   albums: Album[];
+  bands: Band[];
 }
 
 export const Navbar = ({
@@ -44,6 +47,7 @@ export const Navbar = ({
   songs,
   notifications,
   albums,
+  bands,
 }: NavbarProps) => {
   const router = useRouter();
   const { isSignedIn } = useUser();
@@ -70,9 +74,9 @@ export const Navbar = ({
       loggedInOnly: true,
     },
     {
-      label: "My songs",
-      href: "/my-songs",
-      icon: Music,
+      label: "Bands",
+      href: "/bands",
+      icon: Headphones,
       children: null,
       loggedInOnly: true,
     },
@@ -205,6 +209,15 @@ export const Navbar = ({
                 src: profile.imageUrl,
               })),
             },
+            {
+              label: "Bands",
+              type: "band",
+              data: bands?.map((band) => ({
+                id: band.id,
+                name: band.name,
+                src: band.iconImageUrl,
+              })),
+            },
           ]}
         />
       </div>
@@ -217,6 +230,14 @@ export const Navbar = ({
             className="p-2"
             onClick={() => router.push("/songs/create")}>
             <Focus />
+          </Button>
+        </ActionTooltip>
+        <ActionTooltip label="Create">
+          <Button
+            variant="secondary"
+            className="p-2"
+            onClick={() => router.push("/settings")}>
+            <Settings />
           </Button>
         </ActionTooltip>
         <UserButton afterSignOutUrl="/" />

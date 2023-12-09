@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { rateLimit } from "@/lib/rate-limit";
+import { checkSubscription } from "@/lib/check-subscription";
 
 export const RequestValidator = z.object({
   name: z.string().min(1, {
@@ -28,6 +29,13 @@ export async function POST(req: Request) {
 
     if (!profile) {
       return new NextResponse("Not authorized", { status: 403 });
+    }
+
+    const isPro = await checkSubscription();
+    if (!isPro) {
+      return new NextResponse("Pro subscription plan is required", {
+        status: 403,
+      });
     }
 
     const identifier = `${req.url}-${profile?.id}`;

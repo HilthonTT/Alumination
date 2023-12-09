@@ -11,6 +11,7 @@ import {
   UserSquare,
   Upload,
   UploadCloud,
+  Settings,
 } from "lucide-react";
 import { Profile, Song } from "@prisma/client";
 
@@ -53,6 +54,11 @@ export const SidebarContent = ({
       label: "Make an album",
       href: "/albums/create",
       icon: UploadCloud,
+    },
+    {
+      label: "Settings",
+      href: "/settings",
+      icon: Settings,
     },
   ];
 

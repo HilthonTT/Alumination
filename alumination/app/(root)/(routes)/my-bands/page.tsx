@@ -4,6 +4,7 @@ import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
 import { Container } from "@/components/container";
 import { MyBandsDetails } from "@/components/my-bands/my-bands-details";
+import { checkSubscription } from "@/lib/check-subscription";
 
 interface MyBandsPageProps {
   searchParams: {
@@ -16,6 +17,8 @@ const MyBandsPage = async ({ searchParams }: MyBandsPageProps) => {
   if (!profile) {
     return redirectToSignIn();
   }
+
+  const isPro = await checkSubscription();
 
   const bands = await db.band.findMany({
     where: {
@@ -32,7 +35,7 @@ const MyBandsPage = async ({ searchParams }: MyBandsPageProps) => {
 
   return (
     <Container>
-      <MyBandsDetails bands={bands} />
+      <MyBandsDetails bands={bands} isPro={isPro} />
     </Container>
   );
 };

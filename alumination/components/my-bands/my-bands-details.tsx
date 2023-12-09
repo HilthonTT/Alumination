@@ -12,21 +12,24 @@ import { BandCard } from "@/components/bands/band-card";
 
 interface MyBandsDetailsProps {
   bands: Band[];
+  isPro: boolean;
 }
 
-export const MyBandsDetails = ({ bands }: MyBandsDetailsProps) => {
+export const MyBandsDetails = ({ bands, isPro }: MyBandsDetailsProps) => {
   const router = useRouter();
 
   return (
     <>
       <PageHeader title="My Albums" icon={Album} />
       <div className="bg-slate-800 rounded-xl p-3 w-full">
-        <div className="flex items-center justify-end  mb-4">
-          <Button onClick={() => router.push("/bands/create")}>
-            <Upload className="mr-auto" />
-            Upload an album
-          </Button>
-        </div>
+        {isPro && (
+          <div className="flex items-center justify-end  mb-4">
+            <Button onClick={() => router.push("/bands/create")}>
+              <Upload className="mr-auto" />
+              Create a band
+            </Button>
+          </div>
+        )}
         <SearchInput parameter="myBandName" />
 
         {bands?.length === 0 && (

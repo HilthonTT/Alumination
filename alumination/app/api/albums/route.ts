@@ -55,22 +55,26 @@ export async function POST(req: Request) {
       select: { followerId: true },
     });
 
-    const notifications = await Promise.all(
-      followers.map(async (follower) => {
-        const notification = await db.notification.create({
-          data: {
-            body: `has created a new album: ${album?.title}`,
-            receiverId: follower.followerId,
-            issuerId: profile.id,
-            itemId: album?.id,
-            type: NotificationType.ALBUM,
-          },
-        });
-        return notification;
-      })
-    );
+    if (followers?.length !== 0) {
+      const notifications = await Promise.all(
+        followers.map(async (follower) => {
+          const notification = await db.notification.create({
+            data: {
+              body: `has created a new album: ${album?.title}`,
+              receiverId: follower.followerId,
+              issuerId: profile.id,
+              itemId: album?.id,
+              type: NotificationType.ALBUM,
+            },
+          });
+          return notification;
+        })
+      );
 
-    return NextResponse.json({ album, notifications });
+      return NextResponse.json({ album, notifications });
+    }
+
+    return NextResponse.json(album);
   } catch (error) {
     console.log("[ALBUMS_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });

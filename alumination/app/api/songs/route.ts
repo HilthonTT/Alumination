@@ -80,22 +80,26 @@ export async function POST(req: Request) {
       select: { followerId: true },
     });
 
-    const notifications = await Promise.all(
-      followers.map(async (follower) => {
-        const notification = await db.notification.create({
-          data: {
-            body: `has created a new song: ${song?.title}`,
-            receiverId: follower.followerId,
-            issuerId: profile.id,
-            itemId: song?.id,
-            type: NotificationType.SONG,
-          },
-        });
-        return notification;
-      })
-    );
+    if (followers?.length !== 0) {
+      const notifications = await Promise.all(
+        followers.map(async (follower) => {
+          const notification = await db.notification.create({
+            data: {
+              body: `has created a new song: ${song?.title}`,
+              receiverId: follower.followerId,
+              issuerId: profile.id,
+              itemId: song?.id,
+              type: NotificationType.SONG,
+            },
+          });
+          return notification;
+        })
+      );
 
-    return NextResponse.json({ song, notifications });
+      return NextResponse.json({ song, notifications });
+    }
+
+    return NextResponse.json(song);
   } catch (error) {
     console.log("[SONGS_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });

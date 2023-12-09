@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
+import { checkSubscription } from "@/lib/check-subscription";
 import { BandForm } from "@/components/bands/band-form";
 import { Container } from "@/components/container";
 import { BandDetails } from "@/components/bands/band-details";
@@ -16,10 +17,15 @@ interface BandIdPageProps {
 
 const BandIdPage = async ({ params }: BandIdPageProps) => {
   const profile = await currentProfile();
+  const isPro = await checkSubscription();
 
   if (params.bandId === "create") {
     if (!profile) {
       return redirectToSignIn();
+    }
+
+    if (!isPro) {
+      return redirect("/bands");
     }
 
     return (

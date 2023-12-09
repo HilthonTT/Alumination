@@ -11,8 +11,8 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const profile = await initialProfile();
 
-  const [songs, profiles, albums, notifications, following] = await Promise.all(
-    [
+  const [songs, profiles, albums, notifications, following, bands] =
+    await Promise.all([
       db.song.findMany(),
       db.profile.findMany(),
       db.album.findMany(),
@@ -21,8 +21,8 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         where: { followerId: profile?.id },
         include: { followee: true },
       }),
-    ]
-  );
+      db.band.findMany(),
+    ]);
 
   const followingArtists = following.map((follow) => follow.followee);
   const createdSongs = songs.filter((s) => s.profileId === profile?.id);
@@ -35,6 +35,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         notifications={notifications}
         albums={albums}
         profile={profile}
+        bands={bands}
       />
       <main className="pt-16 h-full">{children}</main>
       <div className="fixed top-16 left-4">

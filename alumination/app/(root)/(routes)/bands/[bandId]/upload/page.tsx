@@ -4,7 +4,6 @@ import { redirectToSignIn } from "@clerk/nextjs";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { CheckIfMemberBand } from "@/lib/check-member-band";
-
 import { Container } from "@/components/container";
 import { BandSongFormCreate } from "@/components/bands/band-song-form";
 
@@ -16,7 +15,6 @@ interface BandIdUploadPageProps {
 
 const BandIdUploadPage = async ({ params }: BandIdUploadPageProps) => {
   const profile = await currentProfile();
-
   if (!profile) {
     return redirectToSignIn();
   }
