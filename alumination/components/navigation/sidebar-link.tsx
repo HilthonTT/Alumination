@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 interface SidebarLinkProps {
   label: string;
   href: string;
+  isPro: boolean;
+  userPro: boolean;
   icon: LucideIcon;
   onClose?: () => void;
 }
@@ -15,6 +17,8 @@ export const SidebarLink = ({
   href,
   icon: Icon,
   onClose = () => {},
+  isPro,
+  userPro,
 }: SidebarLinkProps) => {
   const router = useRouter();
 
@@ -22,6 +26,12 @@ export const SidebarLink = ({
     router.push(href);
     onClose();
   };
+
+  const isVisible = !isPro || userPro;
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <a

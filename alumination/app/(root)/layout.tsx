@@ -3,6 +3,7 @@ import { Navbar } from "@/components/navigation/navbar";
 
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/prismadb";
+import { checkSubscription } from "@/lib/check-subscription";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ interface RootLayoutProps {
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const profile = await initialProfile();
 
-  const [songs, profiles, albums, notifications, following, bands] =
+  const [songs, profiles, albums, notifications, following, bands, isPro] =
     await Promise.all([
       db.song.findMany(),
       db.profile.findMany(),
@@ -22,6 +23,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         include: { followee: true },
       }),
       db.band.findMany(),
+      checkSubscription(),
     ]);
 
   const followingArtists = following.map((follow) => follow.followee);
@@ -43,6 +45,7 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
           followingArtists={followingArtists}
           createdSongs={createdSongs}
           profile={profile}
+          isPro={isPro}
         />
       </div>
     </div>

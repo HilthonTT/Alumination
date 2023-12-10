@@ -3,10 +3,7 @@
 import { Album, Band, Following } from "@prisma/client";
 import { User } from "lucide-react";
 
-import {
-  AlbumWithProfileWithSongs,
-  ProfileWithSongsWithProfile,
-} from "@/types";
+import { ProfileWithSongsWithProfile } from "@/types";
 import { ArtistHeader } from "@/components/artists/artist-header";
 import { Separator } from "@/components/ui/separator";
 import { ArtistSongs } from "@/components/artists/artist-songs";
@@ -21,7 +18,7 @@ interface ArtistDetailsProps {
   isFollowing: boolean;
   followers: Following[];
   following: Following[];
-  albums: AlbumWithProfileWithSongs[];
+  albums: Album[];
   bands: Band[];
 }
 

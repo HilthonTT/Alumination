@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Settings } from "lucide-react";
-import { Profile } from "@prisma/client";
+import { Band, Profile } from "@prisma/client";
 import { formatDistanceToNow } from "date-fns";
 import { MouseEvent, useState } from "react";
 
@@ -13,11 +13,16 @@ import { cn } from "@/lib/utils";
 import { BandWithProfile } from "@/types";
 
 interface BandCardProps {
-  band: BandWithProfile;
+  band: BandWithProfile | Band;
   profile?: Profile | null;
+  showProfile?: boolean;
 }
 
-export const BandCard = ({ band, profile }: BandCardProps) => {
+export const BandCard = ({
+  band,
+  profile,
+  showProfile = true,
+}: BandCardProps) => {
   const router = useRouter();
 
   const [isIconHovered, setIsIconHovered] = useState(false);
@@ -36,12 +41,14 @@ export const BandCard = ({ band, profile }: BandCardProps) => {
     router.push(`/bands/${band?.id}/update`);
   };
 
+  const isProfileVisual = showProfile && "profile" in band;
+
   return (
     <div
       onClick={onClick}
       className="relative flex flex-col items-center p-4 
                 dark:bg-slate-800 dark:hover:bg-slate-700 
-                bg-zinc-200 hover:bg-zinc-300
+                bg-zinc-200 hover:bg-zinc-300 mb-4
                  transition rounded-xl cursor-pointer group">
       <div className="relative h-52 w-52">
         <Image
@@ -69,12 +76,15 @@ export const BandCard = ({ band, profile }: BandCardProps) => {
         )}
       </div>
       <div className="flex w-full items-center justify-center gap-x-2 mt-2">
-        <ActionTooltip label={band?.profile?.username} side="bottom">
-          <div onClick={(e) => onProfileClick(e)} className="hover:opacity-75">
-            <UserAvatar src={band?.profile?.imageUrl} />
-          </div>
-        </ActionTooltip>
-
+        {isProfileVisual && (
+          <ActionTooltip label={band.profile.username} side="bottom">
+            <div
+              onClick={(e) => onProfileClick(e)}
+              className="hover:opacity-75">
+              <UserAvatar src={band.profile.imageUrl} />
+            </div>
+          </ActionTooltip>
+        )}
         <div className="dark:text-white text-black truncate w-full">
           <span className="font-semibold">{band.name}</span>
           <p className="text-sm  text-muted-foreground truncate">

@@ -12,12 +12,14 @@ interface MobileToggleProps {
   followingArtists: Profile[];
   createdSongs: Song[];
   profile: Profile;
+  isPro: boolean;
 }
 
 export const SidebarToggle = ({
   followingArtists,
   createdSongs,
   profile,
+  isPro,
 }: MobileToggleProps) => {
   const [open, setOpen] = useState(false);
 
@@ -39,6 +41,7 @@ export const SidebarToggle = ({
             followingArtists={followingArtists}
             createdSongs={createdSongs}
             onClose={onClose}
+            isPro={isPro}
           />
         </div>
       </SheetContent>

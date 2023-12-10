@@ -23,7 +23,9 @@ export const BandMember = ({ member }: BandMemberProps) => {
   return (
     <div
       onClick={onClick}
-      className="bg-slate-700 rounded-full w-full p-2 flex items-center hover:opacity-75 cursor-pointer transition mb-2">
+      className="bg-zinc-100 dark:bg-slate-700 border-[1px]
+       border-black dark:border-none rounded-full w-full p-2 flex items-center 
+        hover:opacity-75 cursor-pointer transition mb-2">
       <div className="relative h-12 w-12">
         <Image
           fill

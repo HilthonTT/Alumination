@@ -55,6 +55,9 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
 
   const bands = await db.band.findMany({
     take: 3,
+    include: {
+      profile: true,
+    },
   });
 
   return (

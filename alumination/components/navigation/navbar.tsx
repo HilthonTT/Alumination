@@ -54,6 +54,13 @@ export const Navbar = ({
 
   const routes = [
     {
+      label: "Songs",
+      href: "/",
+      icon: Music,
+      children: null,
+      loggedInOnly: false,
+    },
+    {
       label: "Albums",
       href: "/albums",
       icon: AlbumIcon,
@@ -133,7 +140,7 @@ export const Navbar = ({
               className="text-black dark:text-white font-semibold
                hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
               <Music4 />
-              Browse Music
+              <span className="sm:hidden lg:block">Browse Music</span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-52">
@@ -157,7 +164,7 @@ export const Navbar = ({
                 className="text-black dark:text-white font-semibold
                  hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
                 <Music2 />
-                My Music
+                <span className="sm:hidden lg:block">My Music</span>
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-52">

@@ -47,10 +47,6 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
         contains: searchParams.artistAlbumName,
       },
     },
-    include: {
-      profile: true,
-      songs: true,
-    },
   });
 
   const bands = await db.band.findMany({

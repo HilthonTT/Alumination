@@ -18,7 +18,7 @@ export const SettingsDetails = ({ isPro, profile }: SettingsDetailsProps) => {
   return (
     <>
       <PageHeader title="Settings" />
-      <div className="bg-slate-800 rounded-xl space-x-2 h-full w-full p-2">
+      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl space-x-2 h-full w-full p-2">
         <div className="flex items-center gap-x-2">
           <UserAvatar src={profile?.imageUrl} />
           <span>{capitalizedUsername}</span>

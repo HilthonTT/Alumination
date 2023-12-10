@@ -13,9 +13,10 @@ import { UserAvatar } from "@/components/user-avatar";
 import { ActionTooltip } from "@/components/action-tooltip";
 
 import { cn } from "@/lib/utils";
+import { Album } from "@prisma/client";
 
 interface AlbumCardProps {
-  album: AlbumWithProfileWithSongs;
+  album: AlbumWithProfileWithSongs | Album;
   showProfile?: boolean;
 }
 
@@ -29,10 +30,17 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
     router.push(`/albums/${album?.id}`);
   };
 
+  const isAlbumWithProfileWithSongs = "profile" && "songs" in album;
+  const isProfileVisual = isAlbumWithProfileWithSongs && showProfile;
+  const isOwner =
+    isAlbumWithProfileWithSongs && album?.profile.userId === user?.id;
+
   const onProfileClick = (e: MouseEvent) => {
     e.stopPropagation();
 
-    router.push(`/artists/${album?.profile?.id}`);
+    if (isAlbumWithProfileWithSongs) {
+      router.push(`/artists/${album?.profile?.id}`);
+    }
   };
 
   const onSettingsClick = (e: MouseEvent) => {
@@ -57,7 +65,7 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
         />
         {showProfile && (
           <>
-            {user?.id === album?.profile?.userId && (
+            {isOwner && (
               <ActionTooltip label="Settings">
                 <div
                   className={cn(
@@ -78,11 +86,15 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
         )}
       </div>
       <div className="flex w-full items-center justify-center gap-x-2 mt-2">
-        <ActionTooltip label={album?.profile?.username} side="bottom">
-          <div onClick={(e) => onProfileClick(e)} className="hover:opacity-75">
-            <UserAvatar src={album?.profile?.imageUrl} />
-          </div>
-        </ActionTooltip>
+        {isProfileVisual && (
+          <ActionTooltip label={album?.profile?.username} side="bottom">
+            <div
+              onClick={(e) => onProfileClick(e)}
+              className="hover:opacity-75">
+              <UserAvatar src={album?.profile?.imageUrl} />
+            </div>
+          </ActionTooltip>
+        )}
 
         <div className="dark:text-white text-black truncate w-full">
           <span className="font-semibold">{album.title}</span>

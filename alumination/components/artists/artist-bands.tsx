@@ -19,7 +19,7 @@ export const ArtistBands = ({ bands }: ArtistBandsProps) => {
       )}
       <div className="gap-2 grid md:grid-cols-3 grid-cols-4">
         {bands?.map((band) => (
-          <BandCard key={band.id} band={band} />
+          <BandCard key={band.id} band={band} showProfile={false} />
         ))}
       </div>
     </div>

@@ -26,6 +26,7 @@ interface SidebarContentProps {
   followingArtists: Profile[];
   createdSongs: Song[];
   onClose?: () => void;
+  isPro: boolean;
 }
 
 export const SidebarContent = ({
@@ -33,32 +34,44 @@ export const SidebarContent = ({
   followingArtists,
   createdSongs,
   onClose,
+  isPro,
 }: SidebarContentProps) => {
   const mainRoutes = [
     {
       label: "Home",
       href: "/",
       icon: Home,
+      isPro: false,
     },
     {
       label: "My channel",
       href: `/artists/${profile?.id}`,
       icon: SquareUserRound,
+      isPro: false,
     },
     {
       label: "Upload a song",
       href: "/songs/create",
       icon: Upload,
+      isPro: false,
     },
     {
       label: "Make an album",
       href: "/albums/create",
       icon: UploadCloud,
+      isPro: false,
+    },
+    {
+      label: "Make a band",
+      href: "/bands/create",
+      icon: Headphones,
+      isPro: true,
     },
     {
       label: "Settings",
       href: "/settings",
       icon: Settings,
+      isPro: false,
     },
   ];
 
@@ -90,7 +103,12 @@ export const SidebarContent = ({
       <div className="mt-10 p-4">
         <div className="relative">
           {mainRoutes?.map((route) => (
-            <SidebarLink key={route.href} {...route} onClose={onClose} />
+            <SidebarLink
+              key={route.href}
+              {...route}
+              onClose={onClose}
+              userPro={isPro}
+            />
           ))}
         </div>
         <Separator className="border border-b-0 border-zinc-500 items-center my-3" />
@@ -120,7 +138,13 @@ export const SidebarContent = ({
           </h2>
 
           {exploreRoutes.map((route) => (
-            <SidebarLink key={route.href} {...route} onClose={onClose} />
+            <SidebarLink
+              key={route.href}
+              {...route}
+              onClose={onClose}
+              userPro={isPro}
+              isPro={false}
+            />
           ))}
         </div>
       </div>

@@ -109,7 +109,7 @@ export const PlayerContentGlobal = ({
             fill
             alt="Album Song Thumbnail"
             src={song?.imageUrl}
-            className="object-cover"
+            className="object-cover rounded-xl"
           />
         </div>
         <p className="text-sm ml-2">{song?.title}</p>

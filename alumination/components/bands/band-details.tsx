@@ -56,40 +56,44 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
   return (
     <>
       <PageHeader title={band.name} />
-      <div className="bg-slate-800 rounded-xl w-full">
+      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl w-full">
         <div className="relative w-full h-40">
           <Image
             fill
             src={band.bannerImageUrl}
             alt="Band Banner"
-            className="object-cover rounded-xl"
+            className="object-cover rounded-xl rounded-b-none"
           />
         </div>
         <div className="flex w-full p-1">
-          <div className="relative h-48 w-48 border-4 border-dashed border-primary/10 rounded-full">
+          <div className="relative w-44 h-44 border-4 border-dashed border-primary/10 rounded-full">
             <Image
               src={band.iconImageUrl}
               alt="Band Picture"
               fill
-              className="object-cover rounded-xl p-5"
+              className="object-cover rounded-xl p-3"
             />
           </div>
+
           <div className="flex flex-col mx-2 mt-5 mr-auto">
             <div className="relative">
               <p className="font-semibold text-xl">
                 {capitalizedName} &#8226; Joined{" "}
-                {formatDistanceToNow(band.createdAt)}
+                {formatDistanceToNow(band.createdAt)} ago
               </p>
               <p className="text-sm text-muted-foreground break-words">
                 {band?.description}
               </p>
             </div>
             <div className="mt-3">
-              {band?.members?.map((member) => (
-                <BandMember key={member.id} member={member} />
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {band?.members?.map((member) => (
+                  <BandMember key={member.id} member={member} />
+                ))}
+              </div>
             </div>
           </div>
+
           <div className="mt-5">
             {isMember && (
               <DropdownMenu>

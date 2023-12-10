@@ -63,7 +63,7 @@ export const NavbarSearch = ({ data }: NavbarSearchProps) => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="group px-2 py-2 rounded-full flex items-center gap-x-2 w-full 
+        className="group px-2 py-2 rounded-full flex items-center gap-x-2 lg:w-full md:w-[50%]
          border-zinc-400 dark:border-zinc-600 border">
         <Search className="text-black dark:text-white" />
         <p className="font-semibold text-sm text-zinc-500 group-hover:text-zinc-300 transition">
