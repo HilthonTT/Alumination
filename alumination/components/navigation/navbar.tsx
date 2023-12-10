@@ -250,7 +250,7 @@ export const Navbar = ({
             <Focus />
           </Button>
         </ActionTooltip>
-        <ActionTooltip label="Create">
+        <ActionTooltip label="Settings">
           <Button
             variant="secondary"
             className="p-2"
