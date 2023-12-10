@@ -119,16 +119,6 @@ export const Navbar = ({
     },
   ];
 
-  const notificationChildren = (
-    <>
-      {notifications?.length !== 0 && (
-        <div className="absolute top-0 -right-1 translate-x-1/2 -translate-y-1/ flex items-center justify-center">
-          <PingNotification />
-        </div>
-      )}
-    </>
-  );
-
   return (
     <div className="fixed bg-slate-200 dark:bg-slate-800 justify-between items-center h-14 w-full mb-16 z-50 flex py-2 px-4 border-b-slate-700">
       <div className="flex items-center">
@@ -198,10 +188,14 @@ export const Navbar = ({
         <LinkElement
           label="Notifications"
           href="/notifications"
-          children={notificationChildren}
           icon={Bell}
-          loggedInOnly
-        />
+          loggedInOnly>
+          {notifications?.length !== 0 && (
+            <div className="absolute top-0 -right-1 translate-x-1/2 -translate-y-1/ flex items-center justify-center">
+              <PingNotification />
+            </div>
+          )}
+        </LinkElement>
       </div>
       <div className="flex items-center w-[320px] justify-center">
         <NavbarSearch
