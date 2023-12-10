@@ -39,7 +39,7 @@ export const SearchInput = ({ parameter }: SearchInputProps) => {
     );
 
     router.push(url);
-  }, [debounceValue, router]);
+  }, [debounceValue, router, parameter]);
 
   return (
     <div className="relative mb-5">

@@ -140,8 +140,8 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Pick the perfect category to harmonize your song's essence!
-                  🎵🎶
+                  Pick the perfect category to harmonize your song&apos;s
+                  essence! 🎵🎶
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>
@@ -164,7 +164,8 @@ export const SongFormUpdate = ({ categories, initialData }: SongFormProps) => {
                   />
                 </FormControl>
                 <FormDescription>
-                  Give us the title that'll make the stars tap their feet! 🎶
+                  Give us the title that&apos;ll make the stars tap their feet!
+                  🎶
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ReactNode } from "react";
+import React from "react";
 import { LucideIcon } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
@@ -9,7 +9,7 @@ interface LinkElementProps {
   label: string;
   href: string;
   loggedInOnly: boolean;
-  children?: ReactNode;
+  children?: React.ReactNode;
   icon?: LucideIcon;
 }
 

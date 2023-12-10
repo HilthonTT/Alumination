@@ -53,8 +53,8 @@ export const FollowModal = () => {
   const description = isFollowing ? (
     <>
       By unfollowing{" "}
-      <span className="text-rose-500">{capitalizedUsername}</span>, You won't
-      receive anymore receive anymore notifications from this artist.
+      <span className="text-rose-500">{capitalizedUsername}</span>, You
+      won&apos;t receive anymore receive anymore notifications from this artist.
     </>
   ) : (
     <>

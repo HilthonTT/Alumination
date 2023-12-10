@@ -164,8 +164,8 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  Pick the perfect category to harmonize your album's essence!
-                  🎵🎶
+                  Pick the perfect category to harmonize your album&apos;s
+                  essence! 🎵🎶
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>
@@ -188,7 +188,8 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
                   />
                 </FormControl>
                 <FormDescription>
-                  Give us the title that'll make the stars tap their feet! 🎶
+                  Give us the title that&apos;ll make the stars tap their feet!
+                  🎶
                 </FormDescription>
                 <FormMessage className="text-red-600" />
               </FormItem>
