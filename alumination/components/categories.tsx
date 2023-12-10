@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { Category } from "@prisma/client";
 import { cn } from "@/lib/utils";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 interface CategoriesProps {
   data: Category[];
@@ -32,35 +33,38 @@ export const Categories = ({ data }: CategoriesProps) => {
 
   return (
     <div className="mt-5 mb-3">
-      <div className="flex items-center justify-center gap-2">
-        <div
-          onClick={() => onClick(undefined)}
-          className={cn(
-            "flex-grow p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-500 transition cursor-pointer px-4",
-            !categoryId
-              ? "bg-slate-200 dark:bg-slate-500"
-              : "bg-slate-300 dark:bg-slate-700"
-          )}>
-          <span className="truncate text-sm dark:text-white text-black">
-            All
-          </span>
-        </div>
-        {data.map((item, index) => (
+      <ScrollArea>
+        <div className="flex items-center justify-center gap-2">
           <div
-            key={index}
-            onClick={() => onClick(item.id)}
+            onClick={() => onClick(undefined)}
             className={cn(
               "flex-grow p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-500 transition cursor-pointer px-4",
-              item.id === categoryId
+              !categoryId
                 ? "bg-slate-200 dark:bg-slate-500"
                 : "bg-slate-300 dark:bg-slate-700"
             )}>
             <span className="truncate text-sm dark:text-white text-black">
-              {item.name}
+              All
             </span>
           </div>
-        ))}
-      </div>
+          {data.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => onClick(item.id)}
+              className={cn(
+                "flex-grow p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-500 transition cursor-pointer px-4",
+                item.id === categoryId
+                  ? "bg-slate-200 dark:bg-slate-500"
+                  : "bg-slate-300 dark:bg-slate-700"
+              )}>
+              <span className="truncate text-sm dark:text-white text-black">
+                {item.name}
+              </span>
+            </div>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };
