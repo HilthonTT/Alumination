@@ -36,8 +36,6 @@ const BandsIdSongsIdUpdatePage = async ({
     return redirect("/bands");
   }
 
-  console.log("HIT!");
-
   const isAllowed = CheckIfMemberBand(band, profile);
   if (!isAllowed) {
     return redirect(`/bands/${params?.bandId}`);
