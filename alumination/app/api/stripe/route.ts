@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { absoluteUrl } from "@/lib/utils";
 import { currentProfile } from "@/lib/current-profile";
 import { stripe } from "@/lib/stripe";
+import { db } from "@/lib/prismadb";
 
 const settingsUrl = absoluteUrl("/settings");
 
@@ -13,7 +14,7 @@ export async function GET(req: Request) {
       return new NextResponse("Not authorized", { status: 403 });
     }
 
-    const userSubscription = await prisma?.userSubscription.findUnique({
+    const userSubscription = await db?.userSubscription.findUnique({
       where: {
         userId: profile?.userId,
       },

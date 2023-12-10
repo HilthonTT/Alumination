@@ -18,9 +18,14 @@ import { Album } from "@prisma/client";
 interface AlbumCardProps {
   album: AlbumWithProfileWithSongs | Album;
   showProfile?: boolean;
+  className?: string;
 }
 
-export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
+export const AlbumCard = ({
+  album,
+  className,
+  showProfile = true,
+}: AlbumCardProps) => {
   const router = useRouter();
   const { user } = useUser();
 
@@ -52,10 +57,13 @@ export const AlbumCard = ({ album, showProfile = true }: AlbumCardProps) => {
   return (
     <div
       onClick={onClick}
-      className="relative flex flex-col items-center p-4 
-                dark:bg-slate-800 dark:hover:bg-slate-700 
-                bg-zinc-200 hover:bg-zinc-300
-                transition rounded-xl cursor-pointer group">
+      className={cn(
+        `relative flex flex-col items-center p-4 
+      dark:bg-slate-800 dark:hover:bg-slate-700 
+      bg-zinc-200 hover:bg-zinc-300
+      transition rounded-xl cursor-pointer group`,
+        className
+      )}>
       <div className="relative h-52 w-52">
         <Image
           fill

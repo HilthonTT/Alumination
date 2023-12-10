@@ -1,8 +1,9 @@
 "use client";
 
+import { BandWithProfile } from "@/types";
 import { NoResults } from "@/components/no-results";
 import { BandCard } from "@/components/bands/band-card";
-import { BandWithProfile } from "@/types";
+import { DisplayContainer } from "@/components/display-container";
 
 interface BandListProps {
   data: BandWithProfile[];
@@ -16,11 +17,11 @@ export const BandList = ({ data, title }: BandListProps) => {
       {data.length === 0 && (
         <NoResults title="No related songs found." src="/empty-box.png" />
       )}
-      <div className="grid px-32 md:p-0 pb-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <DisplayContainer>
         {data.map((item) => (
           <BandCard key={item.id} band={item} />
         ))}
-      </div>
+      </DisplayContainer>
     </div>
   );
 };

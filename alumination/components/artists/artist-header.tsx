@@ -49,12 +49,12 @@ export const ArtistHeader = ({
             Joined {formatDistanceToNow(profile?.createdAt)} ago
           </p>
           <div className="flex justify-between mt-7">
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 text-xs sm:text-base">
               <p>{formatPlural(followers.length, "follower", "followers")}</p>
               <p>{formatPlural(following.length, "following", "followings")}</p>
             </div>
-            <div className="flex items-center justify-center">
-              <Music className="h-5 w-5 mr-2" />
+            <div className="flex items-center justify-center text-xs sm:text-base">
+              <Music className="h-5 w-5 mr-2 hidden sm:block" />
               {formatPlural(profile?.songs?.length, "song", "songs")}
             </div>
           </div>

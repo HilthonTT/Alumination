@@ -15,9 +15,9 @@ import {
 
 interface SongCardProps {
   song: Song | AlbumSong | BandSong;
-  onClick: () => void;
-  onDetails: () => void;
-  onDelete: () => void;
+  onClick?: () => void;
+  onDetails?: () => void;
+  onDelete?: () => void;
 }
 
 export const SongCardGlobal = ({

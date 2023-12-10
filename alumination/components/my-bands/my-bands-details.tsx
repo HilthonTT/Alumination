@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/search-input";
 import { NoResults } from "@/components/no-results";
 import { BandCard } from "@/components/bands/band-card";
+import { DisplayContainer } from "@/components/display-container";
 
 interface MyBandsDetailsProps {
   bands: Band[];
@@ -20,8 +21,8 @@ export const MyBandsDetails = ({ bands, isPro }: MyBandsDetailsProps) => {
 
   return (
     <>
-      <PageHeader title="My Albums" icon={Album} />
-      <div className="bg-slate-800 rounded-xl p-3 w-full">
+      <PageHeader title="My Bands" icon={Album} />
+      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl p-3 w-full">
         {isPro && (
           <div className="flex items-center justify-end  mb-4">
             <Button onClick={() => router.push("/bands/create")}>
@@ -35,11 +36,11 @@ export const MyBandsDetails = ({ bands, isPro }: MyBandsDetailsProps) => {
         {bands?.length === 0 && (
           <NoResults src="/empty-box.png" title="No albums have been found." />
         )}
-        <div className="gap-2 grid md:grid-cols-3 grid-cols-4">
+        <DisplayContainer>
           {bands?.map((band) => (
             <BandCard key={band.id} band={band} />
           ))}
-        </div>
+        </DisplayContainer>
       </div>
     </>
   );

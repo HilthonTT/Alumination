@@ -12,6 +12,7 @@ import { AlbumCard } from "@/components/albums/album-card";
 import { Categories } from "@/components/categories";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/search-input";
+import { DisplayContainer } from "@/components/display-container";
 
 interface AlbumsProps {
   albums: AlbumWithProfileWithSongs[];
@@ -35,17 +36,16 @@ export const Albums = ({ albums, categories }: AlbumsProps) => {
           </Button>
         </div>
       )}
-      {albums.length === 0 ? (
-        <NoResults src="/empty-box.png" title="No songs have been found." />
-      ) : (
-        <>
-          <div className="px-40 md:p-0 grid sm:grid-cols-1 md:grid-cols-4">
-            {albums.map((album) => (
-              <AlbumCard key={album.id} album={album} />
-            ))}
-          </div>
-        </>
+
+      {albums.length === 0 && (
+        <NoResults src="/empty-box.png" title="No albums have been found." />
       )}
+
+      <DisplayContainer>
+        {albums.map((album) => (
+          <AlbumCard key={album.id} album={album} />
+        ))}
+      </DisplayContainer>
     </>
   );
 };

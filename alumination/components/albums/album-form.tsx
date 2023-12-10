@@ -223,7 +223,6 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
             {initialData && (
               <Button
                 onClick={() => onOpen("deleteAlbum", { album: initialData })}
-                size="lg"
                 variant="destructive"
                 type="button"
                 disabled={isLoading}>
@@ -231,9 +230,7 @@ export const AlbumForm = ({ categories, initialData }: AlbumFormProps) => {
                 <Trash className="h-4 w-4 ml-1" />
               </Button>
             )}
-            <Button size="lg" disabled={isLoading}>
-              {button}
-            </Button>
+            <Button disabled={isLoading}>{button}</Button>
           </div>
         </form>
       </Form>

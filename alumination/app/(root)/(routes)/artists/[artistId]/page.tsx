@@ -42,7 +42,7 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
 
   const albums = await db.album.findMany({
     where: {
-      profileId: profile?.id,
+      profileId: artist?.id,
       title: {
         contains: searchParams.artistAlbumName,
       },
@@ -54,7 +54,7 @@ const ArtistIdPage = async ({ params, searchParams }: ArtistIdPageProps) => {
       name: {
         contains: searchParams.artistBandName,
       },
-      profileId: profile?.id,
+      profileId: artist?.id,
     },
   });
 

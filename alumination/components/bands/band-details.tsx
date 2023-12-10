@@ -4,7 +4,7 @@ import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { Edit, MoreVertical, Trash, Upload } from "lucide-react";
+import { Edit, MoreVertical, Music, Trash, Upload } from "lucide-react";
 
 import { BandWithMembersWithProfilesWithSongs } from "@/types";
 import { capitalizeFirstLetter } from "@/lib/utils";
@@ -51,6 +51,10 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
 
   const onDelete = () => {
     onOpen("deleteBand", { band });
+  };
+
+  const onViewSongs = () => {
+    router.push(`/bands/${band.id}/songs`);
   };
 
   return (
@@ -109,6 +113,12 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
                     onClick={onUpdate}>
                     Edit
                     <Edit className="h-4 w-4 ml-auto group-hover:text-cyan-400 transition" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={onViewSongs}
+                    className="cursor-pointer text-sm group">
+                    View songs
+                    <Music className="h-4 w-4 ml-auto group-hover:text-emerald-500 transition" />
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="p-2 cursor-pointer group"

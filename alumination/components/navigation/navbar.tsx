@@ -139,11 +139,9 @@ export const Navbar = ({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div
-              className="text-black dark:text-white font-semibold
-               hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
+            <div className="text-black dark:text-white font-semibold hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
               <Music4 />
-              <span className="sm:hidden lg:block">Browse Music</span>
+              <span className="hidden sm:block lg:block">Browse Music</span>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-52">
@@ -160,14 +158,13 @@ export const Navbar = ({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+
         {isSignedIn && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div
-                className="text-black dark:text-white font-semibold
-                 hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
+              <div className="text-black dark:text-white font-semibold hover:opacity-75 cursor-pointer ml-5 transition flex gap-x-2">
                 <Music2 />
-                <span className="sm:hidden lg:block">My Music</span>
+                <span className="hidden sm:block lg:block">My Music</span>
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-52">
@@ -210,7 +207,7 @@ export const Navbar = ({
               })),
             },
             {
-              label: "Albms",
+              label: "Albums",
               type: "album",
               data: albums?.map((album) => ({
                 id: album.id,

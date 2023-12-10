@@ -4,6 +4,7 @@ import { ProfileWithSongsWithProfile } from "@/types";
 import { SongCard } from "@/components/songs/song-card";
 import { NoResults } from "@/components/no-results";
 import { SearchInput } from "@/components/search-input";
+import { DisplayContainer } from "@/components/display-container";
 
 interface ArtistSongsProps {
   profile: ProfileWithSongsWithProfile;
@@ -16,11 +17,16 @@ export const ArtistSongs = ({ profile }: ArtistSongsProps) => {
       {profile?.songs?.length === 0 && (
         <NoResults src="/empty-box.png" title="No songs have been found." />
       )}
-      <div className="gap-2 grid md:grid-cols-3 grid-cols-4">
+      <DisplayContainer>
         {profile?.songs?.map((song) => (
-          <SongCard key={song.id} song={song} showProfile={false} />
+          <SongCard
+            key={song.id}
+            song={song}
+            showProfile={false}
+            className="bg-zinc-100 dark:bg-slate-700"
+          />
         ))}
-      </div>
+      </DisplayContainer>
     </div>
   );
 };

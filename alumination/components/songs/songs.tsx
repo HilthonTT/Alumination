@@ -12,6 +12,7 @@ import { Categories } from "@/components/categories";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/search-input";
+import { DisplayContainer } from "@/components/display-container";
 
 interface SongsProps {
   data: SongWithProfile[];
@@ -38,11 +39,11 @@ export const Songs = ({ data, categories }: SongsProps) => {
       {data.length === 0 && (
         <NoResults src="/empty-box.png" title="No songs have been found." />
       )}
-      <div className="gap-2 pb-10 px-40 md:p-0 grid sm:grid-cols-1 md:grid-cols-4">
+      <DisplayContainer>
         {data.map((item) => (
           <SongCard key={item.id} song={item} />
         ))}
-      </div>
+      </DisplayContainer>
     </>
   );
 };

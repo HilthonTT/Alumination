@@ -1,13 +1,21 @@
 import { create } from "zustand";
 
-import { Album, AlbumSong, Band, Profile, Song } from "@prisma/client";
+import {
+  Album,
+  AlbumSong,
+  Band,
+  BandSong,
+  Profile,
+  Song,
+} from "@prisma/client";
 
 export type ModalType =
   | "deleteSong"
   | "follow"
   | "deleteAlbum"
   | "deleteBand"
-  | "deleteAlbumSong";
+  | "deleteAlbumSong"
+  | "deleteBandSong";
 
 interface ModalData {
   song?: Song;
@@ -16,6 +24,7 @@ interface ModalData {
   album?: Album;
   band?: Band;
   albumSong?: AlbumSong;
+  bandSong?: BandSong;
 }
 
 interface ModalStore {

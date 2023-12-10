@@ -3,6 +3,7 @@
 import { AlbumWithProfileWithSongs } from "@/types";
 import { NoResults } from "@/components/no-results";
 import { AlbumCard } from "@/components/albums/album-card";
+import { DisplayContainer } from "@/components/display-container";
 
 interface AlbumListProps {
   title: string;
@@ -16,11 +17,11 @@ export const AlbumList = ({ title, data }: AlbumListProps) => {
       {data.length === 0 && (
         <NoResults title="No related songs found." src="/empty-box.png" />
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <DisplayContainer>
         {data.map((item) => (
           <AlbumCard key={item.id} album={item} />
         ))}
-      </div>
+      </DisplayContainer>
     </div>
   );
 };

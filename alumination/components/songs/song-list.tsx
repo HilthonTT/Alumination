@@ -1,8 +1,9 @@
 "use client";
 
+import { SongWithProfile } from "@/types";
 import { NoResults } from "@/components/no-results";
 import { SongCard } from "@/components/songs/song-card";
-import { SongWithProfile } from "@/types";
+import { DisplayContainer } from "@/components/display-container";
 
 interface SongListProps {
   title: string;
@@ -16,11 +17,11 @@ export const SongList = ({ title, data }: SongListProps) => {
       {data.length === 0 && (
         <NoResults title="No related songs found." src="/empty-box.png" />
       )}
-      <div className="grid px-32 md:p-0 pb-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <DisplayContainer>
         {data.map((item) => (
           <SongCard key={item.id} song={item} />
         ))}
-      </div>
+      </DisplayContainer>
     </div>
   );
 };

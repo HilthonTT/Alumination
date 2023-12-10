@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Profile } from "@prisma/client";
+import { formatDistanceToNow } from "date-fns";
 
 import { capitalizeFirstLetter } from "@/lib/utils";
-import { formatDistanceToNow } from "date-fns";
 
 interface ArtistCardProps {
   artist: Profile;
@@ -32,7 +32,7 @@ export const ArtistCard = ({ artist }: ArtistCardProps) => {
           fill
           src={artist.imageUrl}
           alt="Artist Profile Picture"
-          className="object-cover"
+          className="object-cover rounded-full p-2"
         />
       </div>
       <div className="mt-2 relative text-start w-full px-2">

@@ -47,3 +47,7 @@ export type BandWithMembers = Band & {
 export type BandWithProfile = Band & {
   profile: Profile;
 };
+
+export type BandWithSongs = Band & {
+  songs: BandSong[];
+};

@@ -16,11 +16,13 @@ interface BandCardProps {
   band: BandWithProfile | Band;
   profile?: Profile | null;
   showProfile?: boolean;
+  className?: string;
 }
 
 export const BandCard = ({
   band,
   profile,
+  className,
   showProfile = true,
 }: BandCardProps) => {
   const router = useRouter();
@@ -46,10 +48,13 @@ export const BandCard = ({
   return (
     <div
       onClick={onClick}
-      className="relative flex flex-col items-center p-4 
-                dark:bg-slate-800 dark:hover:bg-slate-700 
-                bg-zinc-200 hover:bg-zinc-300 mb-4
-                 transition rounded-xl cursor-pointer group">
+      className={cn(
+        `relative flex flex-col items-center p-4 
+      dark:bg-slate-800 dark:hover:bg-slate-700 
+      bg-zinc-200 hover:bg-zinc-300 mb-4
+       transition rounded-xl cursor-pointer group`,
+        className
+      )}>
       <div className="relative h-52 w-52">
         <Image
           fill
