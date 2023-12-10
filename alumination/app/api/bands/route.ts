@@ -7,7 +7,7 @@ import { db } from "@/lib/prismadb";
 import { rateLimit } from "@/lib/rate-limit";
 import { checkSubscription } from "@/lib/check-subscription";
 
-export const RequestValidator = z.object({
+const RequestValidator = z.object({
   name: z.string().min(1, {
     message: "Band name is required.",
   }),
