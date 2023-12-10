@@ -24,7 +24,7 @@ export const Bands = ({ bands, profile }: BandsProps) => {
         <NoResults src="/empty-box.png" title="No bands have been found." />
       )}
 
-      <div className="gap-2 pb-10 grid grid-cols-4">
+      <div className="gap-2 px-40 md:p-0 grid sm:grid-cols-1 md:grid-cols-4">
         {bands.map((band) => (
           <BandCard key={band.id} band={band} profile={profile} />
         ))}

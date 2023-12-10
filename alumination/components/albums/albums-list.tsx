@@ -16,7 +16,7 @@ export const AlbumList = ({ title, data }: AlbumListProps) => {
       {data.length === 0 && (
         <NoResults title="No related songs found." src="/empty-box.png" />
       )}
-      <div className="grid grid-cols-1 px-40 sm:px-12 md:p-0 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid px-32 md:p-0 pb-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {data.map((item) => (
           <SongCard key={item.id} song={item} />
         ))}

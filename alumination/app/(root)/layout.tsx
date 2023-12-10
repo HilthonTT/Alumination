@@ -1,4 +1,3 @@
-import { SidebarToggle } from "@/components/navigation/sidebar-toggle";
 import { Navbar } from "@/components/navigation/navbar";
 
 import { initialProfile } from "@/lib/initial-profile";
@@ -38,16 +37,11 @@ const RootLayout = async ({ children }: RootLayoutProps) => {
         albums={albums}
         profile={profile}
         bands={bands}
+        followingArtists={followingArtists}
+        createdSongs={createdSongs}
+        isPro={isPro}
       />
       <main className="pt-16 h-full">{children}</main>
-      <div className="fixed top-16 left-4">
-        <SidebarToggle
-          followingArtists={followingArtists}
-          createdSongs={createdSongs}
-          profile={profile}
-          isPro={isPro}
-        />
-      </div>
     </div>
   );
 };

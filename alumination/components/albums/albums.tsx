@@ -39,7 +39,7 @@ export const Albums = ({ albums, categories }: AlbumsProps) => {
         <NoResults src="/empty-box.png" title="No songs have been found." />
       ) : (
         <>
-          <div className="gap-2 pb-10 grid grid-cols-4">
+          <div className="px-40 md:p-0 grid sm:grid-cols-1 md:grid-cols-4">
             {albums.map((album) => (
               <AlbumCard key={album.id} album={album} />
             ))}

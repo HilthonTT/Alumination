@@ -30,7 +30,10 @@ export const SidebarToggle = ({
   return (
     <Sheet open={open} defaultOpen={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hover:opacity-75 transition">
           <Menu />
         </Button>
       </SheetTrigger>

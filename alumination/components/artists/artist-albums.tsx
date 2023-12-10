@@ -16,7 +16,7 @@ export const ArtistAlbums = ({ albums }: ArtistAlbumsProps) => {
       {albums?.length === 0 && (
         <NoResults src="/empty-box.png" title="No albums have been found." />
       )}
-      <div className="gap-2 grid md:grid-cols-3 grid-cols-4">
+      <div className="gap-2 px-40 md:p-0 grid sm:grid-cols-1 md:grid-cols-4">
         {albums?.map((album) => (
           <AlbumCard key={album.id} album={album} showProfile={false} />
         ))}

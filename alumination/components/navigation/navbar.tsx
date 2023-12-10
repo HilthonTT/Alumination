@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/icon";
+import { SidebarToggle } from "@/components/navigation/sidebar-toggle";
 
 interface NavbarProps {
   profile: Profile;
@@ -39,6 +40,9 @@ interface NavbarProps {
   notifications: Notification[];
   albums: Album[];
   bands: Band[];
+  followingArtists: Profile[];
+  createdSongs: Song[];
+  isPro: boolean;
 }
 
 export const Navbar = ({
@@ -48,6 +52,9 @@ export const Navbar = ({
   notifications,
   albums,
   bands,
+  followingArtists,
+  createdSongs,
+  isPro,
 }: NavbarProps) => {
   const router = useRouter();
   const { isSignedIn } = useUser();
@@ -125,7 +132,13 @@ export const Navbar = ({
   return (
     <div className="fixed bg-slate-200 dark:bg-slate-800 justify-between items-center h-14 w-full mb-16 z-50 flex py-2 px-4 border-b-slate-700">
       <div className="flex items-center">
-        <Link href="/">
+        <SidebarToggle
+          followingArtists={followingArtists}
+          createdSongs={createdSongs}
+          profile={profile}
+          isPro={isPro}
+        />
+        <Link href="/" className="ml-2">
           <h1
             className="font-semibold text-2xl hidden md:flex items-center gap-x-2
              text-black dark:text-white hover:opacity-75 transition">
