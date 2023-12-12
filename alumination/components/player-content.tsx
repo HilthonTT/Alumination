@@ -3,7 +3,7 @@
 // @ts-ignore
 import useSound from "use-sound";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Play, Pause, VolumeX, Volume2 } from "lucide-react";
 
 import { VolumeSlider } from "@/components/volume-slider";
@@ -42,6 +42,20 @@ export const PlayerContent = ({ songUrl }: PlayerContentProps) => {
       setVolume(0);
     }
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (isPlaying) {
+        pause();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isPlaying, pause]);
 
   return (
     <div className="flex w-full items-center mt-auto space-x-2">

@@ -101,6 +101,20 @@ export const PlayerContentGlobal = ({
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (isPlaying) {
+        pause();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isPlaying, pause]);
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full p-2">
       <div className="flex items-center">
