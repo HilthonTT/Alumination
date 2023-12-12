@@ -6,6 +6,7 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { rateLimit } from "@/lib/rate-limit";
 import { checkSubscription } from "@/lib/check-subscription";
+import { isImageUrl } from "@/lib/check-image";
 
 const RequestValidator = z.object({
   name: z.string().min(1, {
@@ -60,6 +61,11 @@ export async function POST(req: Request) {
     }
     if (!bannerImageUrl) {
       return new NextResponse("Banner image is required", { status: 400 });
+    }
+
+    const isImage = await isImageUrl(iconImageUrl);
+    if (!isImage) {
+      return new NextResponse("Invalid Image URL", { status: 400 });
     }
 
     const band = await db.band.create({

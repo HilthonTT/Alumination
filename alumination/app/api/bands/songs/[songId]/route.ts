@@ -4,8 +4,6 @@ import { z } from "zod";
 import { currentProfile } from "@/lib/current-profile";
 import { rateLimit } from "@/lib/rate-limit";
 import { db } from "@/lib/prismadb";
-import { CheckIfMemberBand } from "@/lib/check-member-band";
-import { supabase } from "@/lib/supabase";
 
 interface SongIdProps {
   params: {

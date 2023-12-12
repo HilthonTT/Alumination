@@ -1,16 +1,37 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prismadb";
 import { rateLimit } from "@/lib/rate-limit";
 import { NotificationType } from "@prisma/client";
+import { isImageUrl } from "@/lib/check-image";
+
+const RequestValidator = z.object({
+  title: z.string().min(1, {
+    message: "Song title is required.",
+  }),
+  description: z.string().min(1, {
+    message: "Song description is required.",
+  }),
+  imageUrl: z.string().min(1, {
+    message: "Song image is required.",
+  }),
+  categoryId: z.string().min(1, {
+    message: "The category is required.",
+  }),
+  songPath: z.string().min(1, {
+    message: "Song path is required.",
+  }),
+});
 
 export async function POST(req: Request) {
   try {
     const profile = await currentProfile();
     const body = await req.json();
 
-    const { title, description, imageUrl, categoryId } = body;
+    const { title, description, imageUrl, categoryId } =
+      await RequestValidator.parseAsync(body);
 
     if (!profile || !profile?.id) {
       return new NextResponse("Not authorized", { status: 403 });
@@ -37,6 +58,11 @@ export async function POST(req: Request) {
 
     if (!categoryId) {
       return new NextResponse("Category ID is required", { status: 400 });
+    }
+
+    const isImage = await isImageUrl(imageUrl);
+    if (!isImage) {
+      return new NextResponse("Invalid Image URL", { status: 400 });
     }
 
     const album = await db.album.create({

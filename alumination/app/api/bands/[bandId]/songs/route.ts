@@ -6,6 +6,7 @@ import { db } from "@/lib/prismadb";
 import { BandWithMembers } from "@/types";
 import { rateLimit } from "@/lib/rate-limit";
 import { CheckIfMemberBand } from "@/lib/check-member-band";
+import { isImageUrl } from "@/lib/check-image";
 
 interface BandIdProps {
   params: {
@@ -50,6 +51,11 @@ export async function POST(req: Request, { params }: BandIdProps) {
 
     const { title, description, imageUrl, songPath } =
       await RequestValidator.parseAsync(body);
+
+    const isImage = await isImageUrl(imageUrl);
+    if (!isImage) {
+      return new NextResponse("Invalid Image URL", { status: 400 });
+    }
 
     let band: BandWithMembers | null;
 

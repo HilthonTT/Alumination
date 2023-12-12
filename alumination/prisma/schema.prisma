@@ -99,8 +99,6 @@ model Notification {
 
   @@index([receiverId])
   @@index([issuerId])
-
-  @@unique([receiverId, issuerId])
 }
 
 model AlbumSong {

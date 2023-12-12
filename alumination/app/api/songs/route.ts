@@ -5,6 +5,7 @@ import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
 import { rateLimit } from "@/lib/rate-limit";
 import { NotificationType } from "@prisma/client";
+import { isImageUrl } from "@/lib/check-image";
 
 const RequestValidator = z.object({
   title: z.string().min(1, {
@@ -61,6 +62,11 @@ export async function POST(req: Request) {
 
     if (!categoryId) {
       return new NextResponse("Category ID is missing", { status: 400 });
+    }
+
+    const isImage = await isImageUrl(imageUrl);
+    if (!isImage) {
+      return new NextResponse("Invalid Image URL", { status: 400 });
     }
 
     const song = await db.song.create({
