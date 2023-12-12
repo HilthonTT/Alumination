@@ -44,18 +44,12 @@ export const PlayerContent = ({ songUrl }: PlayerContentProps) => {
   };
 
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (isPlaying) {
-        pause();
+    return () => {
+      if (sound) {
+        sound.stop();
       }
     };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isPlaying, pause]);
+  }, [sound]);
 
   return (
     <div className="flex w-full items-center mt-auto space-x-2">
