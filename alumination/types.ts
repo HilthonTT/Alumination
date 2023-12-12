@@ -7,6 +7,7 @@ import {
   Band,
   Member,
   BandSong,
+  BandRequest,
 } from "@prisma/client";
 
 export type SongWithProfile = Song & {
@@ -50,4 +51,8 @@ export type BandWithProfile = Band & {
 
 export type BandWithSongs = Band & {
   songs: BandSong[];
+};
+
+export type BandRequestWithProfile = BandRequest & {
+  profile: Profile;
 };

@@ -21,6 +21,7 @@ model Profile {
   album Album[]
   members Member[]
   bands Band[]
+  requests BandRequest[]
 
   followers Following[] @relation("Followee")
   followingArtists Following[] @relation("Follower")
@@ -162,6 +163,7 @@ model Band {
 
   members Member[]
   songs BandSong[]
+  requests BandRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -208,4 +210,17 @@ model UserSubscription {
   stripeSubscriptionId String? @unique @map(name: "stripe_subscription_id")
   stripePriceId String? @unique @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+}
+
+model BandRequest {
+  id String @id @default(uuid())
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  bandId String
+  band Band @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  @@index([bandId])
+  @@index([profileId])
 }

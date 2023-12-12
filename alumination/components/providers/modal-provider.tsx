@@ -8,6 +8,9 @@ import { DeleteAlbumModal } from "@/components/modals/delete-album-modal";
 import { DeleteBandModal } from "@/components/modals/delete-band-modal";
 import { DeleteAlbumSongModal } from "@/components/modals/delete-album-song-modal";
 import { DeleteBandSongModal } from "@/components/modals/delete-band-song-modal";
+import { JoinModal } from "@/components/modals/join-band-modal";
+import { AcceptRequestModal } from "@/components/modals/accept-request-modal";
+import { DeclineRequestModal } from "@/components/modals/decline-request-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -28,6 +31,9 @@ export const ModalProvider = () => {
       <DeleteBandModal />
       <DeleteAlbumSongModal />
       <DeleteBandSongModal />
+      <JoinModal />
+      <AcceptRequestModal />
+      <DeclineRequestModal />
     </>
   );
 };

@@ -8,6 +8,7 @@ import { BandForm } from "@/components/bands/band-form";
 import { Container } from "@/components/container";
 import { BandDetails } from "@/components/bands/band-details";
 import { BandList } from "@/components/bands/band-list";
+import { checkRequest } from "@/lib/check-request";
 
 interface BandIdPageProps {
   params: {
@@ -60,9 +61,12 @@ const BandIdPage = async ({ params }: BandIdPageProps) => {
     },
   });
 
+  const request = await checkRequest(params.bandId, profile?.id);
+  const isRequested = request ? true : false;
+
   return (
     <Container>
-      <BandDetails band={band} profile={profile} />
+      <BandDetails band={band} profile={profile} isRequested={isRequested} />
       <BandList data={bands} title="Other bands" />
     </Container>
   );

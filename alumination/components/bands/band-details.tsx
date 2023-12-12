@@ -4,7 +4,16 @@ import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
 import { Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { Edit, MoreVertical, Music, Trash, Upload } from "lucide-react";
+import {
+  Edit,
+  Eye,
+  MinusCircle,
+  MoreVertical,
+  Music,
+  PlusCircle,
+  Trash,
+  Upload,
+} from "lucide-react";
 
 import { BandWithMembersWithProfilesWithSongs } from "@/types";
 import { capitalizeFirstLetter } from "@/lib/utils";
@@ -12,6 +21,7 @@ import { PageHeader } from "@/components/page-header";
 import { BandMember } from "@/components/bands/band-member";
 import { useModal } from "@/hooks/use-modal-store";
 import { useOnPlay } from "@/hooks/use-on-play";
+import { usePlayer } from "@/hooks/use-player-store";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,14 +31,19 @@ import {
 import { BandSongCard } from "@/components/bands/band-song-card";
 import { BandPlayer } from "@/components/bands/band-player";
 import { Separator } from "@/components/ui/separator";
-import { usePlayer } from "@/hooks/use-player-store";
+import { CheckIfMemberBand } from "@/lib/check-member-band";
 
 interface BandDetailsProps {
   band: BandWithMembersWithProfilesWithSongs;
   profile: Profile | null;
+  isRequested: boolean;
 }
 
-export const BandDetails = ({ band, profile }: BandDetailsProps) => {
+export const BandDetails = ({
+  band,
+  profile,
+  isRequested,
+}: BandDetailsProps) => {
   const capitalizedName = capitalizeFirstLetter(band?.name);
 
   const { onOpen } = useModal();
@@ -36,10 +51,8 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
   const { activateId } = usePlayer();
   const onPlay = useOnPlay(band.songs);
 
-  const isOwner = band.profileId === profile?.id;
-  const isMember =
-    isOwner ||
-    !!band.members.find((member) => member.profileId === profile?.id);
+  const isMember = CheckIfMemberBand(band, profile as Profile);
+  const isOwner = band?.profileId === profile?.id;
 
   const onUpdate = () => {
     router.push(`/bands/${band?.id}/update`);
@@ -55,6 +68,14 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
 
   const onViewSongs = () => {
     router.push(`/bands/${band.id}/songs`);
+  };
+
+  const onJoin = () => {
+    onOpen("joinBand", { band, isRequested });
+  };
+
+  const onViewRequests = () => {
+    router.push(`/bands/${band?.id}/requests`);
   };
 
   return (
@@ -90,53 +111,74 @@ export const BandDetails = ({ band, profile }: BandDetailsProps) => {
               </p>
             </div>
             <div className="mt-3">
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-1">
                 {band?.members?.map((member) => (
                   <BandMember key={member.id} member={member} />
                 ))}
               </div>
             </div>
           </div>
-
           <div className="mt-5">
-            {isMember && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className=" bg-transparent hover:opacity-75 transition">
-                    <MoreVertical />
-                    <span className="sr-only">More options</span>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-52">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="bg-transparent hover:opacity-75 transition">
+                  <MoreVertical />
+                  <span className="sr-only">More options</span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-52">
+                {!isMember && (
                   <DropdownMenuItem
                     className="p-2 cursor-pointer group"
-                    onClick={onUpdate}>
-                    Edit
-                    <Edit className="h-4 w-4 ml-auto group-hover:text-cyan-400 transition" />
+                    onClick={onJoin}>
+                    {isRequested ? "Cancel Join Request" : "Join Band"}
+                    {isRequested ? (
+                      <MinusCircle className="h-4 w-4 ml-auto group-hover:text-purple-900 transition" />
+                    ) : (
+                      <PlusCircle className="h-4 w-4 ml-auto group-hover:text-purple-900 transition" />
+                    )}
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={onViewSongs}
-                    className="cursor-pointer text-sm group">
-                    View songs
-                    <Music className="h-4 w-4 ml-auto group-hover:text-emerald-500 transition" />
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="p-2 cursor-pointer group"
-                    onClick={onUpload}>
-                    Upload
-                    <Upload className="h-4 w-4 ml-auto group-hover:text-orange-500 transition" />
-                  </DropdownMenuItem>
-                  {isOwner && (
+                )}
+                {isMember && (
+                  <>
+                    <DropdownMenuItem
+                      className="p-2 cursor-pointer group"
+                      onClick={onUpdate}>
+                      Edit
+                      <Edit className="h-4 w-4 ml-auto group-hover:text-cyan-400 transition" />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={onViewSongs}
+                      className="cursor-pointer text-sm group">
+                      View songs
+                      <Music className="h-4 w-4 ml-auto group-hover:text-emerald-500 transition" />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="p-2 cursor-pointer group"
+                      onClick={onUpload}>
+                      Upload
+                      <Upload className="h-4 w-4 ml-auto group-hover:text-orange-500 transition" />
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {isOwner && (
+                  <>
+                    <DropdownMenuItem
+                      className="p-2 cursor-pointer group"
+                      onClick={onViewRequests}>
+                      View Requests
+                      <Eye className="h-4 w-4 ml-auto group-hover:text-rose-400 transition" />
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       className="p-2 cursor-pointer group"
                       onClick={onDelete}>
                       Delete
                       <Trash className="h-4 w-4 ml-auto group-hover:text-rose-500 transition" />
                     </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
         <div className="mt-3 p-2">

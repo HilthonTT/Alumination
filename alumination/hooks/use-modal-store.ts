@@ -15,7 +15,10 @@ export type ModalType =
   | "deleteAlbum"
   | "deleteBand"
   | "deleteAlbumSong"
-  | "deleteBandSong";
+  | "deleteBandSong"
+  | "joinBand"
+  | "acceptRequest"
+  | "declineRequest";
 
 interface ModalData {
   song?: Song;
@@ -25,6 +28,7 @@ interface ModalData {
   band?: Band;
   albumSong?: AlbumSong;
   bandSong?: BandSong;
+  isRequested?: boolean;
 }
 
 interface ModalStore {
