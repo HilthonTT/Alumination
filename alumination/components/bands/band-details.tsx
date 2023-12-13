@@ -118,6 +118,7 @@ export const BandDetails = ({
                     member={member}
                     isOwner={isOwner}
                     band={band}
+                    profile={profile}
                   />
                 ))}
               </div>

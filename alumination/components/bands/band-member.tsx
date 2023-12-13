@@ -16,7 +16,7 @@ interface BandMemberProps {
   member: MemberWithProfile;
   isOwner: boolean;
   band: Band;
-  profile: Profile;
+  profile: Profile | null;
 }
 
 export const BandMember = ({
