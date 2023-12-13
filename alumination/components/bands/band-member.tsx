@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Trash } from "lucide-react";
 import { MouseEvent } from "react";
-import { Band } from "@prisma/client";
+import { Band, Profile } from "@prisma/client";
 
 import { MemberWithProfile } from "@/types";
 import { capitalizeFirstLetter } from "@/lib/utils";
@@ -16,9 +16,15 @@ interface BandMemberProps {
   member: MemberWithProfile;
   isOwner: boolean;
   band: Band;
+  profile: Profile;
 }
 
-export const BandMember = ({ member, isOwner, band }: BandMemberProps) => {
+export const BandMember = ({
+  member,
+  isOwner,
+  band,
+  profile,
+}: BandMemberProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
@@ -32,6 +38,8 @@ export const BandMember = ({ member, isOwner, band }: BandMemberProps) => {
   };
 
   const capitalizedName = capitalizeFirstLetter(member?.profile?.username);
+
+  const isVisible = isOwner && profile?.id !== member.profileId;
 
   return (
     <div
@@ -49,7 +57,7 @@ export const BandMember = ({ member, isOwner, band }: BandMemberProps) => {
       <ActionTooltip label={capitalizedName}>
         <div className="flex items-center mx-2">{capitalizedName}</div>
       </ActionTooltip>
-      {isOwner && (
+      {isVisible && (
         <div className="ml-auto">
           <ActionTooltip label="Kick">
             <button

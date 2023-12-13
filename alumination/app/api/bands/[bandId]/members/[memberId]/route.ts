@@ -42,6 +42,7 @@ export async function DELETE(req: Request, { params }: BandIdMembersProps) {
         members: {
           delete: {
             id: params?.memberId,
+            NOT: { profileId: profile?.id },
           },
         },
       },
