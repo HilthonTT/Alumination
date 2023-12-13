@@ -1,9 +1,10 @@
 import { redirectToSignIn } from "@clerk/nextjs";
 
-import { SongDetails } from "@/components/songs/song-details";
-import { SongFormCreate } from "@/components/songs/song-form-create";
 import { db } from "@/lib/prismadb";
 import { currentProfile } from "@/lib/current-profile";
+
+import { SongDetails } from "@/components/songs/song-details";
+import { SongFormCreate } from "@/components/songs/song-form-create";
 import { SongList } from "@/components/songs/song-list";
 import { Container } from "@/components/container";
 import { NoResults } from "@/components/no-results";
@@ -47,6 +48,10 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     },
     include: {
       profile: true,
+    },
+    take: 3,
+    orderBy: {
+      createdAt: "desc",
     },
   });
 

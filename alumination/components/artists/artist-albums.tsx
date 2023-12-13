@@ -1,10 +1,11 @@
 "use client";
 
+import { Album } from "@prisma/client";
+
 import { NoResults } from "@/components/no-results";
 import { SearchInput } from "@/components/search-input";
 import { AlbumCard } from "@/components/albums/album-card";
-import { Album } from "@prisma/client";
-import { DisplayContainer } from "../display-container";
+import { DisplayContainer } from "@/components/display-container";
 
 interface ArtistAlbumsProps {
   albums: Album[];
@@ -23,7 +24,7 @@ export const ArtistAlbums = ({ albums }: ArtistAlbumsProps) => {
             key={album.id}
             album={album}
             showProfile={false}
-            className="bg-zinc-100 dark:bg-slate-700"
+            className="bg-zinc-100 dark:bg-slate-700 dark:hover:bg-slate-600"
           />
         ))}
       </DisplayContainer>

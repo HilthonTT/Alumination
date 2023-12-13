@@ -113,7 +113,12 @@ export const BandDetails = ({
             <div className="mt-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-1">
                 {band?.members?.map((member) => (
-                  <BandMember key={member.id} member={member} />
+                  <BandMember
+                    key={member.id}
+                    member={member}
+                    isOwner={isOwner}
+                    band={band}
+                  />
                 ))}
               </div>
             </div>

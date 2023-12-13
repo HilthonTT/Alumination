@@ -36,7 +36,7 @@ export const ArtistDetails = ({
   return (
     <>
       <PageHeader title={pageTitle} icon={User} />
-      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl p-3">
+      <div className="bg-zinc-200 dark:bg-slate-800 rounded-xl p-3 mb-4">
         <ArtistHeader
           profile={profile}
           isOwner={isOwner}

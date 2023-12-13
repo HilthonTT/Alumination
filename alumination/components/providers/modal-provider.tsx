@@ -11,6 +11,7 @@ import { DeleteBandSongModal } from "@/components/modals/delete-band-song-modal"
 import { JoinModal } from "@/components/modals/join-band-modal";
 import { AcceptRequestModal } from "@/components/modals/accept-request-modal";
 import { DeclineRequestModal } from "@/components/modals/decline-request-modal";
+import { KickMemberModal } from "@/components/modals/kick-member-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -34,6 +35,7 @@ export const ModalProvider = () => {
       <JoinModal />
       <AcceptRequestModal />
       <DeclineRequestModal />
+      <KickMemberModal />
     </>
   );
 };

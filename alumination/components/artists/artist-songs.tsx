@@ -23,7 +23,7 @@ export const ArtistSongs = ({ profile }: ArtistSongsProps) => {
             key={song.id}
             song={song}
             showProfile={false}
-            className="bg-zinc-100 dark:bg-slate-700"
+            className="bg-zinc-100 dark:bg-slate-700 dark:hover:bg-slate-600"
           />
         ))}
       </DisplayContainer>

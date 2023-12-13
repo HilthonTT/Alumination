@@ -24,7 +24,7 @@ export const ArtistBands = ({ bands }: ArtistBandsProps) => {
             key={band.id}
             band={band}
             showProfile={false}
-            className="bg-zinc-100 dark:bg-slate-700"
+            className="bg-zinc-100 dark:bg-slate-700 dark:hover:bg-slate-600"
           />
         ))}
       </DisplayContainer>

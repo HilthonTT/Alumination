@@ -5,9 +5,12 @@ import {
   AlbumSong,
   Band,
   BandSong,
+  Member,
   Profile,
   Song,
 } from "@prisma/client";
+
+import { MemberWithProfile } from "@/types";
 
 export type ModalType =
   | "deleteSong"
@@ -18,7 +21,8 @@ export type ModalType =
   | "deleteBandSong"
   | "joinBand"
   | "acceptRequest"
-  | "declineRequest";
+  | "declineRequest"
+  | "kickMember";
 
 interface ModalData {
   song?: Song;
@@ -29,6 +33,7 @@ interface ModalData {
   albumSong?: AlbumSong;
   bandSong?: BandSong;
   isRequested?: boolean;
+  member?: MemberWithProfile;
 }
 
 interface ModalStore {
