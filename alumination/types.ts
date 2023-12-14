@@ -8,6 +8,7 @@ import {
   Member,
   BandSong,
   BandRequest,
+  View,
 } from "@prisma/client";
 
 export type SongWithProfile = Song & {
@@ -54,5 +55,10 @@ export type BandWithSongs = Band & {
 };
 
 export type BandRequestWithProfile = BandRequest & {
+  profile: Profile;
+};
+
+export type SongWithViewsWithProfile = Song & {
+  views: View[];
   profile: Profile;
 };

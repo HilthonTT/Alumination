@@ -22,6 +22,7 @@ model Profile {
   members Member[]
   bands Band[]
   requests BandRequest[]
+  viewedSongs View[]
 
   followers Following[] @relation("Followee")
   followingArtists Following[] @relation("Follower")
@@ -41,6 +42,8 @@ model Song {
   description String
   songPath String @db.Text
   imageUrl String
+
+  views View[]
 
   profileId String
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
@@ -223,4 +226,17 @@ model BandRequest {
 
   @@index([bandId])
   @@index([profileId])
+}
+
+model View {
+  id String @id @default(uuid())
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id])
+
+  songId String
+  song Song @relation(fields: [songId], references: [id])
+
+  @@index([profileId])
+  @@index([songId])
 }

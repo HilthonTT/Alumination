@@ -9,6 +9,7 @@ import { SongList } from "@/components/songs/song-list";
 import { Container } from "@/components/container";
 import { NoResults } from "@/components/no-results";
 import { PageHeader } from "@/components/page-header";
+import { checkView } from "@/lib/check-view";
 
 interface SongIdPageProps {
   params: {
@@ -39,8 +40,13 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     },
     include: {
       profile: true,
+      views: true,
     },
   });
+
+  if (!song) {
+    return <NoResults src="/not-found.png" title="No song have been found." />;
+  }
 
   const relatedSongs = await db.song.findMany({
     where: {
@@ -55,16 +61,14 @@ const SongIdPage = async ({ params }: SongIdPageProps) => {
     },
   });
 
-  if (!song) {
-    return <NoResults src="/not-found.png" title="No song have been found." />;
-  }
+  const updatedSong = await checkView(song, profile);
 
   const isOwner = profile?.id === song?.profile.id;
 
   return (
     <Container>
-      <PageHeader title={song?.title} />
-      <SongDetails data={song} isOwner={isOwner} />
+      <PageHeader title={updatedSong?.title} />
+      <SongDetails data={updatedSong} isOwner={isOwner} />
       <SongList data={relatedSongs} title="Related songs" />
     </Container>
   );

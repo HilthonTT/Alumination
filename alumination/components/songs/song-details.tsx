@@ -3,14 +3,16 @@
 import Image from "next/image";
 import { Song } from "@prisma/client";
 
-import { SongWithProfile } from "@/types";
+import { SongWithViewsWithProfile } from "@/types";
 import { useLoadSongUrl } from "@/hooks/use-load-song-url";
 import { NoResults } from "@/components/no-results";
 import { PlayerContent } from "@/components/player-content";
 import { SongHeader } from "@/components/songs/song-header";
+import { formatPlural } from "@/lib/utils";
+import { Eye } from "lucide-react";
 
 interface SongDetailsProps {
-  data: SongWithProfile | null;
+  data: SongWithViewsWithProfile | null;
   isOwner: boolean;
 }
 
@@ -39,6 +41,12 @@ export const SongDetails = ({ data, isOwner }: SongDetailsProps) => {
           <div className="flex flex-col w-full break-words">
             <p className="break-words overflow-hidden">{data?.description}</p>
             <PlayerContent songUrl={songUrl} />
+          </div>
+        </div>
+        <div className="text-muted-foreground">
+          <div className="flex gap-x-2">
+            <Eye />
+            {formatPlural(data?.views?.length, "view", "views")}
           </div>
         </div>
       </div>
